@@ -1,0 +1,1197 @@
+
+:root {
+
+  --bg0: #171512;
+  --bg1: #211e1a;
+  --bg2: #2d2823;
+  --bg3: #3a332c;
+
+  --fg0: #fff4d0;
+  --fg1: #ebdbb2;
+  --fg2: #d5c4a1;
+  --fg3: #a89984;
+
+  --red: #fb4934;
+  --green: #b8bb26;
+  --yellow: #fabd2f;
+  --blue: #83a598;
+  --purple: #d3869b;
+  --aqua: #8ec07c;
+  --orange: #fe8019;
+
+  --amber: #ffb000;
+  --cream: #f2d69c;
+  --rust: #cc6b32;
+
+  --border: #665c54;
+  --border-bright: #a89984;
+
+  --shadow: rgba(0, 0, 0, 0.55);
+  --glow-orange: rgba(254, 128, 25, 0.35);
+  --glow-yellow: rgba(250, 189, 47, 0.25);
+  --glow-green: rgba(184, 187, 38, 0.2);
+
+  --font-main: "Courier New", Courier, monospace;
+  --font-head: Georgia, "Times New Roman", serif;
+
+  --radius: 3px;
+  --gap: 1rem;
+
+  --scanline-size: 4px;
+}
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--bg0);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      #29231e 0%,
+      var(--bg0) 75%
+    );
+
+  color: var(--fg1);
+
+  font-family: var(--font-main);
+  font-size: 15px;
+  line-height: 1.5;
+
+  /* subtle CRT effect */
+  text-shadow: 0 0 1px rgba(255, 240, 190, 0.12);
+}
+
+/* =========================================================
+   CRT / RETRO SCREEN
+   ========================================================= */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 9999;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.025) 0px,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px,
+      transparent var(--scanline-size)
+    );
+
+  opacity: 0.35;
+}
+
+/* Slight screen vignette */
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 9998;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 55%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
+}
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+a {
+  color: var(--aqua);
+  text-decoration: none;
+
+  transition:
+    color 0.15s ease,
+    text-shadow 0.15s ease;
+}
+
+a:hover {
+  color: var(--yellow);
+  text-decoration: none;
+
+  text-shadow:
+    0 0 6px var(--glow-yellow);
+}
+
+/* =========================================================
+   HEADINGS
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-head);
+
+  color: var(--fg0);
+
+  margin: 0 0 0.75rem;
+
+  font-weight: normal;
+
+  letter-spacing: 0.04em;
+}
+
+h1 {
+  position: relative;
+
+  font-size: 1.8rem;
+
+  border-bottom: 2px solid var(--orange);
+
+  padding-bottom: 0.55rem;
+
+  text-shadow:
+    0 0 8px rgba(254, 128, 25, 0.2);
+}
+
+h2 {
+  font-size: 1.35rem;
+  color: var(--yellow);
+
+  text-shadow:
+    0 0 6px var(--glow-yellow);
+}
+
+h3 {
+  font-size: 1.1rem;
+  color: var(--aqua);
+
+  text-shadow:
+    0 0 6px rgba(142, 192, 124, 0.2);
+}
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.shell {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  padding: 1.5rem;
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.topbar {
+  position: relative;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--bg2),
+      var(--bg1)
+    );
+
+  border-bottom: 3px double var(--border-bright);
+
+  padding: 0.75rem 1.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 1rem;
+
+  box-shadow:
+    0 4px 12px var(--shadow),
+    inset 0 -1px 0 rgba(254, 128, 25, 0.2);
+}
+
+/* Futuristic decorative line */
+
+.topbar::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: -5px;
+
+  width: 35%;
+
+  height: 2px;
+
+  background: var(--orange);
+
+  box-shadow:
+    0 0 8px var(--glow-orange);
+}
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.brand {
+  font-family: var(--font-head);
+
+  font-size: 1.3rem;
+
+  color: var(--orange);
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 0 8px var(--glow-orange);
+}
+
+.brand-sub {
+  display: block;
+
+  font-size: 0.7rem;
+
+  color: var(--fg3);
+
+  letter-spacing: 0.2em;
+
+  margin-top: 2px;
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 0.5rem 1rem;
+
+  align-items: center;
+}
+
+.nav a,
+.nav button.link {
+  position: relative;
+
+  background: none;
+
+  border: none;
+
+  color: var(--fg2);
+
+  font-family: inherit;
+
+  font-size: 0.9rem;
+
+  cursor: pointer;
+
+  padding: 0.25rem 0;
+
+  transition:
+    color 0.15s ease,
+    text-shadow 0.15s ease;
+}
+
+.nav a::before,
+.nav button.link::before {
+  content: "› ";
+
+  color: var(--orange);
+
+  opacity: 0;
+
+  transition: opacity 0.15s ease;
+}
+
+.nav a.active,
+.nav a:hover,
+.nav button.link:hover {
+  color: var(--yellow);
+
+  text-shadow:
+    0 0 6px var(--glow-yellow);
+}
+
+.nav a:hover::before,
+.nav button.link:hover::before {
+  opacity: 1;
+}
+
+.user-tag {
+  font-size: 0.85rem;
+  color: var(--fg3);
+}
+
+/* =========================================================
+   GRID
+   ========================================================= */
+
+.grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(240px, 1fr));
+
+  gap: var(--gap);
+}
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.card {
+  position: relative;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(80, 73, 69, 0.45),
+      var(--bg1)
+    );
+
+  border: 1px solid var(--border);
+
+  border-left: 4px solid var(--orange);
+
+  padding: 1rem 1.1rem;
+
+  box-shadow:
+    5px 5px 0 var(--shadow);
+
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* Futuristic corner */
+
+.card::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  width: 18px;
+  height: 18px;
+
+  border-top: 1px solid var(--orange);
+  border-right: 1px solid var(--orange);
+
+  opacity: 0.6;
+}
+
+.card:hover {
+  transform: translate(-2px, -2px);
+
+  border-color: var(--border-bright);
+
+  box-shadow:
+    7px 7px 0 var(--shadow),
+    0 0 15px rgba(254, 128, 25, 0.08);
+}
+
+.card.clickable {
+  cursor: pointer;
+}
+
+.card-title {
+  font-family: var(--font-head);
+
+  color: var(--fg0);
+
+  font-size: 1.05rem;
+
+  margin-bottom: 0.35rem;
+}
+
+.card-meta {
+  font-size: 0.85rem;
+  color: var(--fg3);
+}
+
+/* =========================================================
+   PANELS
+   ========================================================= */
+
+.panel {
+  position: relative;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--bg2),
+      var(--bg1)
+    );
+
+  border: 1px solid var(--border);
+
+  padding: 1.25rem;
+
+  margin-bottom: 1.25rem;
+
+  box-shadow:
+    inset 0 0 0 1px var(--bg2),
+    4px 4px 0 var(--shadow);
+}
+
+/* Decorative panel corners */
+
+.panel::before {
+  content: "";
+
+  position: absolute;
+
+  top: -1px;
+  left: -1px;
+
+  width: 24px;
+  height: 24px;
+
+  border-top: 2px solid var(--orange);
+  border-left: 2px solid var(--orange);
+}
+
+.panel::after {
+  content: "";
+
+  position: absolute;
+
+  bottom: -1px;
+  right: -1px;
+
+  width: 24px;
+  height: 24px;
+
+  border-bottom: 2px solid var(--aqua);
+  border-right: 2px solid var(--aqua);
+}
+
+/* =========================================================
+   FORMS
+   ========================================================= */
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.85rem;
+
+  max-width: 420px;
+}
+
+.form-wide {
+  max-width: 640px;
+}
+
+.field label {
+  display: block;
+
+  font-size: 0.8rem;
+
+  color: var(--fg3);
+
+  margin-bottom: 0.25rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.08em;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--bg0),
+      #12110f
+    );
+
+  border: 1px solid var(--border);
+
+  color: var(--fg1);
+
+  padding: 0.55rem 0.65rem;
+
+  font-family: inherit;
+
+  font-size: 0.95rem;
+
+  border-radius: var(--radius);
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.field input:hover,
+.field select:hover,
+.field textarea:hover {
+  border-color: var(--border-bright);
+}
+
+.field select option {
+  background-color: var(--bg0);
+  color: var(--fg1);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+
+  border-color: var(--orange);
+
+  box-shadow:
+    0 0 0 2px rgba(254, 128, 25, 0.12),
+    0 0 12px rgba(254, 128, 25, 0.08);
+}
+
+.field textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn {
+  display: inline-block;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--bg3),
+      var(--bg2)
+    );
+
+  color: var(--fg0);
+
+  border: 1px solid var(--border-bright);
+
+  padding: 0.5rem 1rem;
+
+  font-family: inherit;
+
+  font-size: 0.9rem;
+
+  cursor: pointer;
+
+  border-radius: var(--radius);
+
+  box-shadow:
+    3px 3px 0 var(--shadow);
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    transform 0.1s ease,
+    box-shadow 0.1s ease;
+}
+
+.btn:hover {
+  background: var(--bg3);
+
+  color: var(--yellow);
+
+  border-color: var(--yellow);
+
+  box-shadow:
+    3px 3px 0 var(--shadow),
+    0 0 10px var(--glow-yellow);
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+
+  box-shadow:
+    1px 1px 0 var(--shadow);
+}
+
+.btn-primary {
+  background:
+    linear-gradient(
+      180deg,
+      var(--green),
+      #989b1e
+    );
+
+  color: var(--bg0);
+
+  border-color: var(--green);
+}
+
+.btn-primary:hover {
+  background: var(--aqua);
+
+  border-color: var(--aqua);
+
+  color: var(--bg0);
+
+  box-shadow:
+    0 0 12px rgba(142, 192, 124, 0.25);
+}
+
+.btn-danger {
+  background: var(--red);
+
+  color: var(--fg0);
+
+  border-color: var(--red);
+}
+
+.btn-sm {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+.btn-row {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 0.5rem;
+
+  margin-top: 0.5rem;
+}
+
+/* =========================================================
+   ALERTS
+   ========================================================= */
+
+.alert {
+  padding: 0.75rem 1rem;
+
+  border: 1px solid var(--border);
+
+  margin-bottom: 1rem;
+
+  border-radius: var(--radius);
+
+  position: relative;
+}
+
+.alert::before {
+  content: "◆";
+
+  margin-right: 0.6rem;
+
+  font-size: 0.7rem;
+}
+
+.alert-error {
+  background: rgba(251, 73, 52, 0.12);
+
+  border-color: var(--red);
+
+  color: var(--red);
+}
+
+.alert-ok {
+  background: rgba(184, 187, 38, 0.1);
+
+  border-color: var(--green);
+
+  color: var(--green);
+}
+
+.alert-info {
+  background: rgba(131, 165, 152, 0.1);
+
+  border-color: var(--blue);
+
+  color: var(--blue);
+}
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.table-wrap {
+  overflow-x: auto;
+
+  border: 1px solid var(--border);
+
+  box-shadow:
+    4px 4px 0 var(--shadow);
+}
+
+table.data {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  font-size: 0.9rem;
+}
+
+table.data th,
+table.data td {
+  padding: 0.55rem 0.75rem;
+
+  border-bottom: 1px solid var(--bg2);
+
+  text-align: left;
+}
+
+table.data th {
+  background:
+    linear-gradient(
+      180deg,
+      var(--bg3),
+      var(--bg2)
+    );
+
+  color: var(--yellow);
+
+  font-weight: normal;
+
+  text-transform: uppercase;
+
+  font-size: 0.75rem;
+
+  letter-spacing: 0.07em;
+}
+
+table.data tr {
+  transition: background 0.1s ease;
+}
+
+table.data tr:hover td {
+  background: var(--bg2);
+
+  color: var(--fg0);
+}
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.badge {
+  display: inline-block;
+
+  padding: 0.15rem 0.45rem;
+
+  font-size: 0.75rem;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  letter-spacing: 0.03em;
+}
+
+.badge-warn {
+  color: var(--orange);
+
+  border-color: var(--orange);
+
+  box-shadow:
+    0 0 6px rgba(254, 128, 25, 0.12);
+}
+
+.badge-ok {
+  color: var(--green);
+
+  border-color: var(--green);
+
+  box-shadow:
+    0 0 6px rgba(184, 187, 38, 0.1);
+}
+
+.badge-pend {
+  color: var(--yellow);
+
+  border-color: var(--yellow);
+
+  box-shadow:
+    0 0 6px rgba(250, 189, 47, 0.1);
+}
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+.login-page {
+  min-height: 100vh;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      #332b24 0%,
+      var(--bg0) 70%
+    ),
+
+    repeating-linear-gradient(
+      0deg,
+      var(--bg0),
+      var(--bg0) 2px,
+      var(--bg1) 2px,
+      var(--bg1) 4px
+    );
+
+  position: relative;
+}
+
+/* Retro grid */
+
+.login-page::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      rgba(254, 128, 25, 0.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(254, 128, 25, 0.04) 1px,
+      transparent 1px
+    );
+
+  background-size: 40px 40px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      transparent,
+      black 30%,
+      black 70%,
+      transparent
+    );
+}
+
+.login-box {
+  position: relative;
+
+  width: 100%;
+
+  max-width: 400px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--bg2),
+      var(--bg1)
+    );
+
+  border: 2px solid var(--border-bright);
+
+  padding: 2rem;
+
+  box-shadow:
+    8px 8px 0 var(--shadow),
+    0 0 25px rgba(254, 128, 25, 0.08);
+}
+
+/* Corner decorations */
+
+.login-box::before {
+  content: "";
+
+  position: absolute;
+
+  top: -2px;
+  left: -2px;
+
+  width: 35px;
+  height: 35px;
+
+  border-top: 3px solid var(--orange);
+  border-left: 3px solid var(--orange);
+}
+
+.login-box::after {
+  content: "";
+
+  position: absolute;
+
+  bottom: -2px;
+  right: -2px;
+
+  width: 35px;
+  height: 35px;
+
+  border-bottom: 3px solid var(--aqua);
+  border-right: 3px solid var(--aqua);
+}
+
+.login-box h1 {
+  text-align: center;
+
+  border: none;
+
+  margin-bottom: 0.25rem;
+}
+
+.login-sub {
+  text-align: center;
+
+  color: var(--fg3);
+
+  font-size: 0.85rem;
+
+  margin-bottom: 1.5rem;
+
+  letter-spacing: 0.05em;
+}
+
+/* =========================================================
+   STAT RING
+   ========================================================= */
+
+.stat-ring {
+  width: 120px;
+  height: 120px;
+
+  border-radius: 50%;
+
+  border: 6px solid var(--bg2);
+
+  border-top-color: var(--green);
+
+  border-right-color: var(--orange);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.4rem;
+
+  color: var(--fg0);
+
+  margin: 0 auto 1rem;
+
+  box-shadow:
+    0 0 15px var(--glow-green);
+
+  position: relative;
+}
+
+.stat-ring::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 7px;
+
+  border-radius: 50%;
+
+  border: 1px dashed var(--border);
+}
+
+/* =========================================================
+   PROGRESS / RENDIMIENTO
+   ========================================================= */
+
+.rend-row {
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.75rem;
+
+  margin-bottom: 0.5rem;
+}
+
+.rend-bar {
+  flex: 1;
+
+  height: 12px;
+
+  background: var(--bg0);
+
+  border: 1px solid var(--border);
+}
+
+.rend-fill {
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--green),
+      var(--aqua)
+    );
+
+  box-shadow:
+    0 0 7px rgba(142, 192, 124, 0.25);
+}
+
+/* =========================================================
+   TABS
+   ========================================================= */
+
+.tabs {
+  display: flex;
+
+  gap: 0.25rem;
+
+  margin-bottom: 1rem;
+
+  flex-wrap: wrap;
+}
+
+.tab {
+  background: var(--bg2);
+
+  border: 1px solid var(--border);
+
+  color: var(--fg2);
+
+  padding: 0.4rem 0.8rem;
+
+  cursor: pointer;
+
+  font-family: inherit;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.tab:hover {
+  border-color: var(--yellow);
+
+  color: var(--yellow);
+}
+
+.tab.active {
+  background: var(--orange);
+
+  color: var(--bg0);
+
+  border-color: var(--orange);
+
+  box-shadow:
+    0 0 10px rgba(254, 128, 25, 0.18);
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty {
+  color: var(--fg3);
+
+  font-style: italic;
+
+  padding: 1rem 0;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer {
+  text-align: center;
+
+  padding: 1rem;
+
+  font-size: 0.75rem;
+
+  color: var(--fg3);
+
+  border-top: 1px dashed var(--border);
+
+  background: rgba(0, 0, 0, 0.12);
+
+  letter-spacing: 0.05em;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 640px) {
+
+  .topbar {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page {
+    padding: 1rem;
+  }
+
+  .main {
+    padding: 1rem;
+  }
+
+  .login-box {
+    margin: 1rem;
+
+    padding: 1.5rem;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}

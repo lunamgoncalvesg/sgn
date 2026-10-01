@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: sgn-backend
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/sgn}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:1234}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+server:
+  port: ${SERVER_PORT:8080}
+
+sgn:
+  jwt:
+    secret: ${SGN_JWT_SECRET:sgn-dev-secret-key-change-in-production-min-256-bits-long-enough}
+    exp-ms: ${SGN_JWT_EXP_MS:86400000}
+
+  mail:
+    enabled: ${SGN_MAIL_ENABLED:true}
+    from: ${SGN_MAIL_FROM:lunamgoncalvesguerreiro@gmail.com}
+
+  anio-activo: ${SGN_ANIO_ACTIVO:2026}
+
+  cors:
+    origins: ${SGN_CORS_ORIGINS:http://localhost:3000}
+
+logging:
+  level:
+    com.sgn: INFO

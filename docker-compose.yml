@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sgn-postgres
+    environment:
+      POSTGRES_DB: sgn
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - sgn_pg:/var/lib/postgresql/data
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: sgn-mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  sgn_pg:
