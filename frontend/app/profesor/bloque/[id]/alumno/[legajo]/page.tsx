@@ -1,6 +1,8 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import Toast from "@/components/Toast";
+import { label, cursoLabel } from "@/lib/presentation";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import Shell from "@/components/Shell";
@@ -94,7 +96,7 @@ export default function AlumnoNotasPage() {
           <Link href={`/profesor/bloque/${id}`}>← Volver a alumnos</Link>
         </p>
         {err && <div className="alert alert-error">{err}</div>}
-        {ok && <div className="alert alert-ok">{ok}</div>}
+        {ok && <Toast message={ok} onClose={() => setOk("")}/>}
 
         <div className="tabs">
           {["DET", "BIM", "CUAT", "DIC", "FEB", "FINAL"].map((t) => (
@@ -113,8 +115,8 @@ export default function AlumnoNotasPage() {
           <h2>Cargar nota</h2>
           <form className="form form-wide" onSubmit={cargar}>
             <div className="field">
-              <label>Tipo</label>
-              <select
+              <label htmlFor="field-1">Tipo</label>
+              <select id="field-1"
                 value={form.tipo}
                 onChange={(e) =>
                   setForm({
@@ -134,8 +136,8 @@ export default function AlumnoNotasPage() {
               </select>
             </div>
             <div className="field">
-              <label>Período</label>
-              <select
+              <label htmlFor="field-2">Período</label>
+              <select id="field-2"
                 value={form.numPer}
                 onChange={(e) => setForm({ ...form, numPer: Number(e.target.value) })}
               >
@@ -148,8 +150,8 @@ export default function AlumnoNotasPage() {
             </div>
             {(form.tipo === "PRUEBA" || form.tipo === "TRABAJO") && (
               <div className="field">
-                <label>Descripción</label>
-                <input
+                <label htmlFor="field-3">Descripción</label>
+                <input id="field-3"
                   value={form.titulo}
                   onChange={(e) => setForm({ ...form, titulo: e.target.value })}
                   placeholder="Ej: Parcial 1"
@@ -158,8 +160,8 @@ export default function AlumnoNotasPage() {
               </div>
             )}
             <div className="field">
-              <label>Nota</label>
-              <input
+              <label htmlFor="field-4">Nota</label>
+              <input id="field-4"
                 type="number"
                 step="0.01"
                 min="1"
@@ -189,8 +191,8 @@ export default function AlumnoNotasPage() {
             <tbody>
               {filtradas.map((n) => (
                 <tr key={n.id}>
-                  <td>{n.tipo}</td>
-                  <td>{n.numPer}</td>
+                  <td>{label(n.tipo)}</td>
+                  <td className="numeric">{n.numPer}</td>
                   <td>{n.titulo || "—"}</td>
                   <td>
                     {n.est === "EN_PROCESO" ? (
@@ -230,8 +232,8 @@ export default function AlumnoNotasPage() {
             <h2>Solicitar cambio — nota actual: {modNota.val}</h2>
             <form className="form" onSubmit={solicitar}>
               <div className="field">
-                <label>Nueva nota</label>
-                <input
+                <label htmlFor="field-5">Nueva nota</label>
+                <input id="field-5"
                   type="number"
                   step="0.01"
                   min="1"
@@ -242,8 +244,8 @@ export default function AlumnoNotasPage() {
                 />
               </div>
               <div className="field">
-                <label>Motivo</label>
-                <textarea
+                <label htmlFor="field-6">Motivo</label>
+                <textarea id="field-6"
                   value={modMot}
                   onChange={(e) => setModMot(e.target.value)}
                   required

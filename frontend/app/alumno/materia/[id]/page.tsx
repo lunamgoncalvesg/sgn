@@ -1,6 +1,8 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import Toast from "@/components/Toast";
+import { label, cursoLabel } from "@/lib/presentation";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import Shell from "@/components/Shell";
@@ -59,7 +61,7 @@ export default function MateriaAlumnoPage() {
           Promedio no oficial: <strong>{prom}</strong>
         </p>
         {err && <div className="alert alert-error">{err}</div>}
-        {ok && <div className="alert alert-ok">{ok}</div>}
+        {ok && <Toast message={ok} onClose={() => setOk("")}/>}
 
         <div className="table-wrap">
           <table className="data">
@@ -75,8 +77,8 @@ export default function MateriaAlumnoPage() {
             <tbody>
               {notas.map((n) => (
                 <tr key={n.id}>
-                  <td>{n.tipo}</td>
-                  <td>{n.numPer}</td>
+                  <td>{label(n.tipo)}</td>
+                  <td className="numeric">{n.numPer}</td>
                   <td>{n.titulo || "—"}</td>
                   <td>
                     {n.est === "EN_PROCESO" ? (
@@ -105,8 +107,8 @@ export default function MateriaAlumnoPage() {
             <h2>Reportar error — nota {repNota.val}</h2>
             <form className="form" onSubmit={reportar}>
               <div className="field">
-                <label>Motivo</label>
-                <textarea
+                <label htmlFor="field-1">Motivo</label>
+                <textarea id="field-1"
                   value={motivo}
                   onChange={(e) => setMotivo(e.target.value)}
                   required

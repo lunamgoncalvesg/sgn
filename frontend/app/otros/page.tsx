@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { label, cursoLabel } from "@/lib/presentation";
 import Link from "next/link";
 import Shell from "@/components/Shell";
 import { Guard } from "@/components/Guard";
@@ -25,7 +26,7 @@ export default function OtrosPage() {
           {bloques.map((b) => (
             <Link key={b.id} href={`/otros/bloque/${b.id}`} className="card clickable">
               <div className="card-title">{b.titulo}</div>
-              <div className="card-meta">{b.curso}</div>
+              <div className="card-meta">{cursoLabel(b.curso)}</div>
             </Link>
           ))}
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Toast from "@/components/Toast";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 import { getSession, setSession } from "@/lib/auth";
@@ -78,7 +79,7 @@ export default function CambiarPasswordPage() {
         </p>
 
         {err && <div className="alert alert-error">{err}</div>}
-        {ok && <div className="alert alert-success">{ok}</div>}
+        {ok && <Toast message={ok} onClose={() => setOk("")}/>}
 
         <form className="form" onSubmit={onSubmit}>
           <div className="field">

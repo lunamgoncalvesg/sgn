@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Toast from "@/components/Toast";
 import Link from "next/link";
+import RendimientoCard from "@/components/RendimientoCard";
+import Icon from "@/components/Icon";
+import EmptyState from "@/components/EmptyState";
+import { cursoLabel } from "@/lib/presentation";
 import Shell from "@/components/Shell";
 import { Guard } from "@/components/Guard";
 import { api } from "@/lib/api";
@@ -41,55 +46,25 @@ export default function AlumnoPage() {
       <Shell>
         <h1>Mi panel</h1>
         {err && <div className="alert alert-error">{err}</div>}
-        {ok && <div className="alert alert-ok">{ok}</div>}
+        {ok && <Toast message={ok} onClose={() => setOk("")}/>}
         {load && <p className="empty">Cargando...</p>}
 
-        {perfil && (
-          <div className="panel">
+        {perfil && <div className="panel student-header">
+          <div>
             <h2>{perfil.nom}</h2>
-            <p className="card-meta">
-              Legajo {perfil.legajo} · Curso {perfil.curso || "—"} · Año {perfil.anioLectivo}
-            </p>
-            <button type="button" className="btn btn-primary" onClick={pdf}>
-              Descargar boletín PDF
-            </button>
+            <p className="card-meta">Legajo {perfil.legajo} · Curso {perfil.curso || "—"} · Año {perfil.anioLectivo}</p>
           </div>
-        )}
-
-        {rend && (
-          <div className="panel">
-            <h2>Rendimiento orientativo</h2>
-            <div className="stat-ring">{rend.pctGlobal.toFixed(0)}%</div>
-            <p className="card-meta">Promedio general no oficial: {rend.promGeneral.toFixed(2)}</p>
-            {rend.materias.map((m) => (
-              <div key={m.materia} className="rend-row">
-                <span style={{ width: "140px" }}>{m.materia}</span>
-                <div className="rend-bar">
-                  <div className="rend-fill" style={{ width: `${m.pct}%` }} />
-                </div>
-                <span>{m.promNoOf.toFixed(2)}</span>
-                <span className="badge">{m.est}</span>
-              </div>
-            ))}
-            {rend.periodos.length > 0 && (
-              <>
-                <h3>Por período</h3>
-                {rend.periodos.map((p) => (
-                  <p key={p.tipo + p.numPer} className="card-meta">
-                    {p.tipo} {p.numPer}: {p.promNoOf.toFixed(2)}
-                  </p>
-                ))}
-              </>
-            )}
-          </div>
-        )}
+          <button type="button" className="btn btn-primary" onClick={pdf}><Icon name="download" size={17}/> Descargar boletín PDF</button>
+        </div>}
+        {rend && <RendimientoCard rend={rend}/>}
 
         <h2>Materias</h2>
+        {!load && !err && materias.length === 0 && <EmptyState title="Sin materias asignadas" description="Tus materias aparecerán cuando se registre tu inscripción al curso."/>}
         <div className="grid">
           {materias.map((m) => (
-            <Link key={m.id} href={`/alumno/materia/${m.id}`} className="card clickable">
+            <Link key={m.id} href={`/alumno/materia/${m.id}`} className="card clickable subject-card">
               <div className="card-title">{m.materia}</div>
-              <div className="card-meta">{m.curso}</div>
+              <div className="card-meta">{cursoLabel(m.curso)}</div><span className="subject-link">Ver calificaciones</span><Icon name="chevron" size={18}/>
             </Link>
           ))}
         </div>

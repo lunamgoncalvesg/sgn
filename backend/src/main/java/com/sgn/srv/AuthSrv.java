@@ -15,6 +15,10 @@ import com.sgn.dto.Dtos.CambiarPasswordReq;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.time.Duration;
+import java.time.Instant;
+import java.security.SecureRandom;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class AuthSrv {
@@ -23,18 +27,61 @@ private final AuthenticationManager authMgr;
 private final JwtUtil jwt;
 private final UsuarioRepo repo;
 private final PasswordEncoder passwordEncoder;
+private final MailSrv mailSrv;
+private final ConcurrentHashMap<String, Instant> recoveryRequests = new ConcurrentHashMap<>();
+private final SecureRandom secureRandom = new SecureRandom();
+private static final Duration RECOVERY_COOLDOWN = Duration.ofMinutes(3);
 
 public AuthSrv(
         AuthenticationManager authMgr,
         JwtUtil jwt,
         UsuarioRepo repo,
-        PasswordEncoder passwordEncoder) {
+        PasswordEncoder passwordEncoder,
+        MailSrv mailSrv) {
 
     this.authMgr = authMgr;
     this.jwt = jwt;
     this.repo = repo;
     this.passwordEncoder = passwordEncoder;
+    this.mailSrv = mailSrv;
 }
+
+    @Transactional
+    public void recuperarPassword(String ident) {
+        String identificador = NotaReglas.normalizarIdent(ident);
+        if (identificador.isBlank()) return;
+
+        Instant ahora = Instant.now();
+        recoveryRequests.entrySet().removeIf(entry -> entry.getValue().isBefore(ahora.minus(RECOVERY_COOLDOWN)));
+        Instant anterior = recoveryRequests.putIfAbsent(identificador, ahora);
+        if (anterior != null) {
+            if (anterior.isAfter(ahora.minus(RECOVERY_COOLDOWN))) return;
+            if (!recoveryRequests.replace(identificador, anterior, ahora)) return;
+        }
+
+        Usuario u = repo.findByCuil(identificador)
+            .or(() -> repo.findByMailIgnoreCase(ident.trim()))
+            .orElse(null);
+        if (u == null || !u.isActivo()) return;
+
+        String passwordTemporal = generarPasswordTemporal();
+        u.setPass(passwordEncoder.encode(passwordTemporal));
+        u.setPrimerIngreso(true);
+        repo.save(u);
+        if (!mailSrv.passwordTemporal(u.getMail(), u.nomCompleto(), passwordTemporal)) {
+            recoveryRequests.remove(identificador, ahora);
+            throw new IllegalStateException("No se pudo enviar la contraseña temporal");
+        }
+    }
+
+    private String generarPasswordTemporal() {
+        String caracteres = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+        StringBuilder password = new StringBuilder(12);
+        for (int i = 0; i < 12; i++) {
+            password.append(caracteres.charAt(secureRandom.nextInt(caracteres.length())));
+        }
+        return password.toString();
+    }
 
     @Transactional
     public LoginRes login(LoginReq req) {

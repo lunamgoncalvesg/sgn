@@ -38,13 +38,13 @@ public class UsuarioCtrl {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('OFICINA','ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public UsrRes crear(@Valid @RequestBody UsrReq req) {
         return srv.crear(req);
     }
 
     @PutMapping("/{legajo}")
-    @PreAuthorize("hasAnyRole('OFICINA','ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public UsrRes editar(@PathVariable String legajo, @RequestBody UsrReq req) {
         return srv.editar(legajo, req);
     }
@@ -86,20 +86,12 @@ public MsgRes resetPassword(@PathVariable String legajo) {
     }
 
     @PostMapping("/inscripcion")
-@PreAuthorize("hasAnyRole('OFICINA','ADMIN')")
-public MsgRes inscribir(@RequestBody InscReq req) {
-    System.out.println(">>> INSCRIPCION RECIBIDA: " + req);
-
-    try {
+    @PreAuthorize("hasAnyRole('OFICINA','ADMIN')")
+    public MsgRes inscribir(@RequestBody InscReq req) {
         srv.inscribir(req);
-        System.out.println(">>> INSCRIPCION OK");
         return new MsgRes("Alumno inscripto");
-    } catch (Exception e) {
-        System.out.println(">>> ERROR INSCRIPCION:");
-        e.printStackTrace();
-        throw e;
     }
-}
+
     @PostMapping("/bloque")
     @PreAuthorize("hasAnyRole('OFICINA','ADMIN')")
     public MsgRes bloque(@RequestBody BloqueReq req) {

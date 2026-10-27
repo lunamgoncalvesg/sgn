@@ -11,6 +11,7 @@ export default function Home() {
   useEffect(() => {
     const s = getSession();
     if (!s) router.replace("/login");
+    else if (s.primerIngreso) router.replace("/cambiar-password");
     else router.replace(RUTAS[s.tipo]);
   }, [router]);
 

@@ -1,1197 +1,870 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-
-  --bg0: #171512;
-  --bg1: #211e1a;
-  --bg2: #2d2823;
-  --bg3: #3a332c;
-
-  --fg0: #fff4d0;
-  --fg1: #ebdbb2;
-  --fg2: #d5c4a1;
-  --fg3: #a89984;
-
-  --red: #fb4934;
-  --green: #b8bb26;
-  --yellow: #fabd2f;
-  --blue: #83a598;
-  --purple: #d3869b;
-  --aqua: #8ec07c;
-  --orange: #fe8019;
-
-  --amber: #ffb000;
-  --cream: #f2d69c;
-  --rust: #cc6b32;
-
-  --border: #665c54;
-  --border-bright: #a89984;
-
-  --shadow: rgba(0, 0, 0, 0.55);
-  --glow-orange: rgba(254, 128, 25, 0.35);
-  --glow-yellow: rgba(250, 189, 47, 0.25);
-  --glow-green: rgba(184, 187, 38, 0.2);
-
-  --font-main: "Courier New", Courier, monospace;
-  --font-head: Georgia, "Times New Roman", serif;
-
-  --radius: 3px;
-  --gap: 1rem;
-
-  --scanline-size: 4px;
+    --bg0: #f6ead2;
+    --bg1: #fff8e9;
+    --bg2: #eed8b4;
+    --bg3: #dfbd8e;
+    --fg0: #42291e;
+    --fg1: #594033;
+    --fg2: #785a48;
+    --fg3: #8c7060;
+    --red: #b94432;
+    --green: #77814a;
+    --yellow: #e7a33b;
+    --blue: #668f90;
+    --purple: #926f8d;
+    --aqua: #739b8c;
+    --orange: #dc612c;
+    --amber: #f1ad46;
+    --cream: #fff4d9;
+    --rust: #ad4828;
+    --border: #caa47d;
+    --border-bright: #a76d48;
+    --shadow: rgba(77, 43, 23, .16);
+    --glow-orange: rgba(220, 97, 44, .20);
+    --glow-yellow: rgba(231, 163, 59, .18);
+    --glow-green: rgba(119, 129, 74, .18);
+    --font-main: 'Outfit', Arial, sans-serif;
+    --font-head: 'Outfit', Arial, sans-serif;
+    --radius: 14px;
+    --gap: 1.15rem;
+    --scanline-size: 5px
 }
-
-/* =========================================================
-   RESET
-   ========================================================= */
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box
 }
 
 html {
-  min-height: 100%;
-  background: var(--bg0);
+    min-height: 100%;
+    background: var(--bg0)
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      #29231e 0%,
-      var(--bg0) 75%
-    );
-
-  color: var(--fg1);
-
-  font-family: var(--font-main);
-  font-size: 15px;
-  line-height: 1.5;
-
-  /* subtle CRT effect */
-  text-shadow: 0 0 1px rgba(255, 240, 190, 0.12);
+    margin: 0;
+    min-height: 100vh;
+    color: var(--fg1);
+    font: 400 16px/1.55 var(--font-main);
+    background: radial-gradient(ellipse at 85% 5%, #f7cb84 0, transparent 38%), radial-gradient(ellipse at 0 80%, #e7cba9 0, transparent 43%), var(--bg0)
 }
-
-/* =========================================================
-   CRT / RETRO SCREEN
-   ========================================================= */
 
 body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-
-  pointer-events: none;
-  z-index: 9999;
-
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.025) 0px,
-      rgba(255, 255, 255, 0.025) 1px,
-      transparent 1px,
-      transparent var(--scanline-size)
-    );
-
-  opacity: 0.35;
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: .15;
+    background: repeating-linear-gradient(0deg, transparent 0 4px, rgba(102, 62, 30, .10) 4px 5px)
 }
-
-/* Slight screen vignette */
 
 body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-
-  pointer-events: none;
-  z-index: 9998;
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      transparent 55%,
-      rgba(0, 0, 0, 0.4) 100%
-    );
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+    background: radial-gradient(ellipse at center, transparent 65%, rgba(91, 47, 20, .08))
 }
 
-/* =========================================================
-   LINKS
-   ========================================================= */
-
 a {
-  color: var(--aqua);
-  text-decoration: none;
-
-  transition:
-    color 0.15s ease,
-    text-shadow 0.15s ease;
+    color: var(--rust);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color .2s
 }
 
 a:hover {
-  color: var(--yellow);
-  text-decoration: none;
-
-  text-shadow:
-    0 0 6px var(--glow-yellow);
+    color: var(--orange);
+    text-decoration: underline
 }
-
-/* =========================================================
-   HEADINGS
-   ========================================================= */
 
 h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-head);
-
-  color: var(--fg0);
-
-  margin: 0 0 0.75rem;
-
-  font-weight: normal;
-
-  letter-spacing: 0.04em;
+    font-family: var(--font-head);
+    font-weight: 800;
+    letter-spacing: -.035em;
+    line-height: 1.15;
+    color: var(--fg0);
+    margin: 0 0 .85rem
 }
 
 h1 {
-  position: relative;
-
-  font-size: 1.8rem;
-
-  border-bottom: 2px solid var(--orange);
-
-  padding-bottom: 0.55rem;
-
-  text-shadow:
-    0 0 8px rgba(254, 128, 25, 0.2);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    border-bottom: 5px solid var(--orange);
+    padding-bottom: .5rem
 }
 
 h2 {
-  font-size: 1.35rem;
-  color: var(--yellow);
-
-  text-shadow:
-    0 0 6px var(--glow-yellow);
+    font-size: clamp(1.4rem, 2.6vw, 2rem);
+    color: var(--rust)
 }
 
 h3 {
-  font-size: 1.1rem;
-  color: var(--aqua);
-
-  text-shadow:
-    0 0 6px rgba(142, 192, 124, 0.2);
+    font-size: 1.25rem;
+    color: #777747
 }
 
-/* =========================================================
-   LAYOUT
-   ========================================================= */
-
 .page {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 1.5rem;
+    max-width: 1180px;
+    margin: auto;
+    padding: 2rem 1.5rem
 }
 
 .shell {
-  min-height: 100vh;
-
-  display: flex;
-  flex-direction: column;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column
 }
 
 .main {
-  flex: 1;
-  padding: 1.5rem;
+    flex: 1;
+    padding: 2rem 1.5rem
 }
-
-/* =========================================================
-   TOP BAR
-   ========================================================= */
 
 .topbar {
-  position: relative;
-
-  background:
-    linear-gradient(
-      180deg,
-      var(--bg2),
-      var(--bg1)
-    );
-
-  border-bottom: 3px double var(--border-bright);
-
-  padding: 0.75rem 1.5rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 1rem;
-
-  box-shadow:
-    0 4px 12px var(--shadow),
-    inset 0 -1px 0 rgba(254, 128, 25, 0.2);
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem clamp(1rem, 4vw, 3rem);
+    background: var(--cream);
+    border-bottom: 5px solid var(--orange);
+    box-shadow: 0 5px 0 rgba(103, 58, 29, .07)
 }
-
-/* Futuristic decorative line */
 
 .topbar::after {
-  content: "";
-
-  position: absolute;
-
-  left: 0;
-  bottom: -5px;
-
-  width: 35%;
-
-  height: 2px;
-
-  background: var(--orange);
-
-  box-shadow:
-    0 0 8px var(--glow-orange);
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    right: 0;
+    width: 23%;
+    height: 5px;
+    background: var(--amber)
 }
 
-/* =========================================================
-   BRAND
-   ========================================================= */
-
 .brand {
-  font-family: var(--font-head);
-
-  font-size: 1.3rem;
-
-  color: var(--orange);
-
-  letter-spacing: 0.12em;
-
-  text-transform: uppercase;
-
-  text-shadow:
-    0 0 8px var(--glow-orange);
+    font-size: 1.65rem;
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: -.06em;
+    color: var(--rust);
+    text-transform: uppercase
 }
 
 .brand-sub {
-  display: block;
-
-  font-size: 0.7rem;
-
-  color: var(--fg3);
-
-  letter-spacing: 0.2em;
-
-  margin-top: 2px;
+    display: block;
+    margin-top: .4rem;
+    font: 500 .65rem 'DM Mono', monospace;
+    letter-spacing: .18em;
+    color: var(--fg2)
 }
 
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
-
 .nav {
-  display: flex;
-  flex-wrap: wrap;
-
-  gap: 0.5rem 1rem;
-
-  align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    align-items: center
 }
 
 .nav a,
 .nav button.link {
-  position: relative;
-
-  background: none;
-
-  border: none;
-
-  color: var(--fg2);
-
-  font-family: inherit;
-
-  font-size: 0.9rem;
-
-  cursor: pointer;
-
-  padding: 0.25rem 0;
-
-  transition:
-    color 0.15s ease,
-    text-shadow 0.15s ease;
+    display: inline-block;
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    color: var(--fg1);
+    font: 700 .9rem var(--font-main);
+    padding: .6rem 1rem;
+    cursor: pointer;
+    transition: background .2s, color .2s
 }
 
 .nav a::before,
 .nav button.link::before {
-  content: "› ";
-
-  color: var(--orange);
-
-  opacity: 0;
-
-  transition: opacity 0.15s ease;
+    content: none
 }
 
-.nav a.active,
 .nav a:hover,
+.nav a.active,
 .nav button.link:hover {
-  color: var(--yellow);
-
-  text-shadow:
-    0 0 6px var(--glow-yellow);
-}
-
-.nav a:hover::before,
-.nav button.link:hover::before {
-  opacity: 1;
+    background: var(--orange);
+    color: #fffaf0;
+    text-decoration: none
 }
 
 .user-tag {
-  font-size: 0.85rem;
-  color: var(--fg3);
+    font-size: .85rem;
+    color: var(--fg2)
 }
-
-/* =========================================================
-   GRID
-   ========================================================= */
 
 .grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(auto-fill, minmax(240px, 1fr));
-
-  gap: var(--gap);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--gap)
 }
 
-/* =========================================================
-   CARDS
-   ========================================================= */
+.card,
+.panel,
+.login-box {
+    position: relative;
+    background: var(--bg1);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 7px 7px 0 var(--shadow)
+}
 
 .card {
-  position: relative;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(80, 73, 69, 0.45),
-      var(--bg1)
-    );
-
-  border: 1px solid var(--border);
-
-  border-left: 4px solid var(--orange);
-
-  padding: 1rem 1.1rem;
-
-  box-shadow:
-    5px 5px 0 var(--shadow);
-
-  transition:
-    transform 0.15s ease,
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+    padding: 1.4rem;
+    border-top: 7px solid var(--orange);
+    transition: transform .2s, box-shadow .2s
 }
 
-/* Futuristic corner */
-
 .card::after {
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  right: 0;
-
-  width: 18px;
-  height: 18px;
-
-  border-top: 1px solid var(--orange);
-  border-right: 1px solid var(--orange);
-
-  opacity: 0.6;
+    content: '';
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 24px;
+    height: 24px;
+    border: 5px solid var(--amber);
+    border-radius: 50%
 }
 
 .card:hover {
-  transform: translate(-2px, -2px);
-
-  border-color: var(--border-bright);
-
-  box-shadow:
-    7px 7px 0 var(--shadow),
-    0 0 15px rgba(254, 128, 25, 0.08);
+    transform: translateY(-4px);
+    box-shadow: 9px 11px 0 var(--shadow)
 }
 
 .card.clickable {
-  cursor: pointer;
+    cursor: pointer
 }
 
 .card-title {
-  font-family: var(--font-head);
-
-  color: var(--fg0);
-
-  font-size: 1.05rem;
-
-  margin-bottom: 0.35rem;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--fg0);
+    margin-bottom: .45rem
 }
 
 .card-meta {
-  font-size: 0.85rem;
-  color: var(--fg3);
+    font-size: .85rem;
+    color: var(--fg2)
 }
-
-/* =========================================================
-   PANELS
-   ========================================================= */
 
 .panel {
-  position: relative;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--bg2),
-      var(--bg1)
-    );
-
-  border: 1px solid var(--border);
-
-  padding: 1.25rem;
-
-  margin-bottom: 1.25rem;
-
-  box-shadow:
-    inset 0 0 0 1px var(--bg2),
-    4px 4px 0 var(--shadow);
+    padding: 1.6rem;
+    margin-bottom: 1.5rem
 }
 
-/* Decorative panel corners */
-
 .panel::before {
-  content: "";
-
-  position: absolute;
-
-  top: -1px;
-  left: -1px;
-
-  width: 24px;
-  height: 24px;
-
-  border-top: 2px solid var(--orange);
-  border-left: 2px solid var(--orange);
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20px;
+    width: 70px;
+    height: 7px;
+    background: var(--orange);
+    border-radius: 0 0 8px 8px
 }
 
 .panel::after {
-  content: "";
-
-  position: absolute;
-
-  bottom: -1px;
-  right: -1px;
-
-  width: 24px;
-  height: 24px;
-
-  border-bottom: 2px solid var(--aqua);
-  border-right: 2px solid var(--aqua);
+    content: '';
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+    width: 45px;
+    height: 7px;
+    background: var(--green);
+    border-radius: 8px 8px 0 0
 }
 
-/* =========================================================
-   FORMS
-   ========================================================= */
-
 .form {
-  display: flex;
-  flex-direction: column;
-
-  gap: 0.85rem;
-
-  max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 420px
 }
 
 .form-wide {
-  max-width: 640px;
+    max-width: 640px
 }
 
 .field label {
-  display: block;
-
-  font-size: 0.8rem;
-
-  color: var(--fg3);
-
-  margin-bottom: 0.25rem;
-
-  text-transform: uppercase;
-
-  letter-spacing: 0.08em;
+    display: block;
+    font-size: .78rem;
+    color: var(--fg2);
+    margin-bottom: .35rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: .09em
 }
 
 .field input,
 .field select,
 .field textarea {
-  width: 100%;
+    width: 100%;
+    padding: .8rem .95rem;
+    background: #fffdf6;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    color: var(--fg0);
+    font: 500 .95rem var(--font-main);
+    transition: border-color .2s, box-shadow .2s
+}
 
-  background:
-    linear-gradient(
-      180deg,
-      var(--bg0),
-      #12110f
-    );
-
-  border: 1px solid var(--border);
-
-  color: var(--fg1);
-
-  padding: 0.55rem 0.65rem;
-
-  font-family: inherit;
-
-  font-size: 0.95rem;
-
-  border-radius: var(--radius);
-
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+.field select option {
+    background: var(--bg1);
+    color: var(--fg0)
 }
 
 .field input:hover,
 .field select:hover,
 .field textarea:hover {
-  border-color: var(--border-bright);
-}
-
-.field select option {
-  background-color: var(--bg0);
-  color: var(--fg1);
+    border-color: var(--border-bright)
 }
 
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-  outline: none;
-
-  border-color: var(--orange);
-
-  box-shadow:
-    0 0 0 2px rgba(254, 128, 25, 0.12),
-    0 0 12px rgba(254, 128, 25, 0.08);
+    outline: none;
+    border-color: var(--orange);
+    box-shadow: 0 0 0 4px var(--glow-orange)
 }
 
 .field textarea {
-  min-height: 90px;
-  resize: vertical;
+    min-height: 100px;
+    resize: vertical
 }
 
-/* =========================================================
-   BUTTONS
-   ========================================================= */
-
 .btn {
-  display: inline-block;
-
-  background:
-    linear-gradient(
-      180deg,
-      var(--bg3),
-      var(--bg2)
-    );
-
-  color: var(--fg0);
-
-  border: 1px solid var(--border-bright);
-
-  padding: 0.5rem 1rem;
-
-  font-family: inherit;
-
-  font-size: 0.9rem;
-
-  cursor: pointer;
-
-  border-radius: var(--radius);
-
-  box-shadow:
-    3px 3px 0 var(--shadow);
-
-  transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    transform 0.1s ease,
-    box-shadow 0.1s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    padding: .75rem 1.2rem;
+    background: var(--cream);
+    border: 2px solid var(--border-bright);
+    border-radius: 999px;
+    color: var(--fg0);
+    font: 800 .9rem var(--font-main);
+    cursor: pointer;
+    box-shadow: 3px 4px 0 var(--shadow);
+    transition: transform .15s, background .2s, box-shadow .15s
 }
 
 .btn:hover {
-  background: var(--bg3);
-
-  color: var(--yellow);
-
-  border-color: var(--yellow);
-
-  box-shadow:
-    3px 3px 0 var(--shadow),
-    0 0 10px var(--glow-yellow);
+    background: var(--amber);
+    border-color: var(--orange);
+    color: var(--fg0);
+    transform: translateY(-2px);
+    box-shadow: 4px 6px 0 var(--shadow)
 }
 
 .btn:active {
-  transform: translate(2px, 2px);
-
-  box-shadow:
-    1px 1px 0 var(--shadow);
+    transform: translateY(2px);
+    box-shadow: 1px 2px 0 var(--shadow)
 }
 
 .btn-primary {
-  background:
-    linear-gradient(
-      180deg,
-      var(--green),
-      #989b1e
-    );
-
-  color: var(--bg0);
-
-  border-color: var(--green);
+    background: var(--orange);
+    border-color: var(--rust);
+    color: white
 }
 
 .btn-primary:hover {
-  background: var(--aqua);
-
-  border-color: var(--aqua);
-
-  color: var(--bg0);
-
-  box-shadow:
-    0 0 12px rgba(142, 192, 124, 0.25);
+    background: var(--rust);
+    color: white
 }
 
 .btn-danger {
-  background: var(--red);
-
-  color: var(--fg0);
-
-  border-color: var(--red);
+    background: var(--red);
+    border-color: #90352b;
+    color: white
 }
 
 .btn-sm {
-  padding: 0.3rem 0.6rem;
-  font-size: 0.8rem;
+    padding: .4rem .75rem;
+    font-size: .8rem
 }
 
 .btn-row {
-  display: flex;
-
-  flex-wrap: wrap;
-
-  gap: 0.5rem;
-
-  margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .65rem;
+    margin-top: .65rem
 }
 
-/* =========================================================
-   ALERTS
-   ========================================================= */
-
 .alert {
-  padding: 0.75rem 1rem;
-
-  border: 1px solid var(--border);
-
-  margin-bottom: 1rem;
-
-  border-radius: var(--radius);
-
-  position: relative;
+    padding: .85rem 1rem;
+    margin-bottom: 1rem;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: var(--cream)
 }
 
 .alert::before {
-  content: "◆";
-
-  margin-right: 0.6rem;
-
-  font-size: 0.7rem;
+    content: '✦';
+    margin-right: .5rem
 }
 
 .alert-error {
-  background: rgba(251, 73, 52, 0.12);
-
-  border-color: var(--red);
-
-  color: var(--red);
+    background: #f9e0d8;
+    border-color: var(--red);
+    color: #8c3028
 }
 
 .alert-ok {
-  background: rgba(184, 187, 38, 0.1);
-
-  border-color: var(--green);
-
-  color: var(--green);
+    background: #e8ebd6;
+    border-color: var(--green);
+    color: #556033
 }
 
 .alert-info {
-  background: rgba(131, 165, 152, 0.1);
-
-  border-color: var(--blue);
-
-  color: var(--blue);
+    background: #dcebe8;
+    border-color: var(--blue);
+    color: #365f61
 }
 
-/* =========================================================
-   TABLE
-   ========================================================= */
-
 .table-wrap {
-  overflow-x: auto;
-
-  border: 1px solid var(--border);
-
-  box-shadow:
-    4px 4px 0 var(--shadow);
+    overflow-x: auto;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 5px 5px 0 var(--shadow)
 }
 
 table.data {
-  width: 100%;
-
-  border-collapse: collapse;
-
-  font-size: 0.9rem;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .9rem
 }
 
 table.data th,
 table.data td {
-  padding: 0.55rem 0.75rem;
-
-  border-bottom: 1px solid var(--bg2);
-
-  text-align: left;
+    padding: .8rem 1rem;
+    border-bottom: 1px solid var(--bg2);
+    text-align: left
 }
 
 table.data th {
-  background:
-    linear-gradient(
-      180deg,
-      var(--bg3),
-      var(--bg2)
-    );
-
-  color: var(--yellow);
-
-  font-weight: normal;
-
-  text-transform: uppercase;
-
-  font-size: 0.75rem;
-
-  letter-spacing: 0.07em;
-}
-
-table.data tr {
-  transition: background 0.1s ease;
+    background: var(--rust);
+    color: var(--cream);
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .08em
 }
 
 table.data tr:hover td {
-  background: var(--bg2);
-
-  color: var(--fg0);
+    background: #fff0d5
 }
 
-/* =========================================================
-   BADGES
-   ========================================================= */
-
 .badge {
-  display: inline-block;
-
-  padding: 0.15rem 0.45rem;
-
-  font-size: 0.75rem;
-
-  border: 1px solid var(--border);
-
-  border-radius: var(--radius);
-
-  letter-spacing: 0.03em;
+    display: inline-block;
+    padding: .2rem .6rem;
+    border: 1.5px solid var(--border);
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: 700
 }
 
 .badge-warn {
-  color: var(--orange);
-
-  border-color: var(--orange);
-
-  box-shadow:
-    0 0 6px rgba(254, 128, 25, 0.12);
+    color: var(--rust);
+    border-color: var(--orange);
+    background: #ffead5
 }
 
 .badge-ok {
-  color: var(--green);
-
-  border-color: var(--green);
-
-  box-shadow:
-    0 0 6px rgba(184, 187, 38, 0.1);
+    color: #526032;
+    border-color: var(--green);
+    background: #edf0d8
 }
 
 .badge-pend {
-  color: var(--yellow);
-
-  border-color: var(--yellow);
-
-  box-shadow:
-    0 0 6px rgba(250, 189, 47, 0.1);
+    color: #82531e;
+    border-color: var(--yellow);
+    background: #fff0cd
 }
-
-/* =========================================================
-   LOGIN
-   ========================================================= */
 
 .login-page {
-  min-height: 100vh;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      #332b24 0%,
-      var(--bg0) 70%
-    ),
-
-    repeating-linear-gradient(
-      0deg,
-      var(--bg0),
-      var(--bg0) 2px,
-      var(--bg1) 2px,
-      var(--bg1) 4px
-    );
-
-  position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 1.5rem;
+    background: radial-gradient(circle at 50% 38%, #ffd894, transparent 45%), repeating-linear-gradient(90deg, transparent 0 48px, rgba(177, 105, 51, .08) 49px 50px), var(--bg0)
 }
 
-/* Retro grid */
-
 .login-page::before {
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  pointer-events: none;
-
-  background:
-    linear-gradient(
-      rgba(254, 128, 25, 0.04) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(254, 128, 25, 0.04) 1px,
-      transparent 1px
-    );
-
-  background-size: 40px 40px;
-
-  mask-image:
-    linear-gradient(
-      to bottom,
-      transparent,
-      black 30%,
-      black 70%,
-      transparent
-    );
+    content: '';
+    position: absolute;
+    width: min(72vw, 650px);
+    aspect-ratio: 1;
+    border: 35px solid rgba(220, 97, 44, .10);
+    border-radius: 50%;
+    pointer-events: none
 }
 
 .login-box {
-  position: relative;
-
-  width: 100%;
-
-  max-width: 400px;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--bg2),
-      var(--bg1)
-    );
-
-  border: 2px solid var(--border-bright);
-
-  padding: 2rem;
-
-  box-shadow:
-    8px 8px 0 var(--shadow),
-    0 0 25px rgba(254, 128, 25, 0.08);
+    width: 100%;
+    max-width: 430px;
+    padding: 2.3rem;
+    z-index: 1;
+    border-top: 9px solid var(--orange)
 }
 
-/* Corner decorations */
-
 .login-box::before {
-  content: "";
-
-  position: absolute;
-
-  top: -2px;
-  left: -2px;
-
-  width: 35px;
-  height: 35px;
-
-  border-top: 3px solid var(--orange);
-  border-left: 3px solid var(--orange);
+    content: '';
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    width: 45px;
+    height: 45px;
+    border: 8px solid var(--amber);
+    border-radius: 50%
 }
 
 .login-box::after {
-  content: "";
-
-  position: absolute;
-
-  bottom: -2px;
-  right: -2px;
-
-  width: 35px;
-  height: 35px;
-
-  border-bottom: 3px solid var(--aqua);
-  border-right: 3px solid var(--aqua);
+    content: none
 }
 
 .login-box h1 {
-  text-align: center;
-
-  border: none;
-
-  margin-bottom: 0.25rem;
+    text-align: center;
+    border: none;
+    margin-bottom: .3rem
 }
 
 .login-sub {
-  text-align: center;
-
-  color: var(--fg3);
-
-  font-size: 0.85rem;
-
-  margin-bottom: 1.5rem;
-
-  letter-spacing: 0.05em;
+    text-align: center;
+    color: var(--fg2);
+    font-size: .9rem;
+    margin-bottom: 1.6rem
 }
 
-/* =========================================================
-   STAT RING
-   ========================================================= */
-
 .stat-ring {
-  width: 120px;
-  height: 120px;
-
-  border-radius: 50%;
-
-  border: 6px solid var(--bg2);
-
-  border-top-color: var(--green);
-
-  border-right-color: var(--orange);
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  font-size: 1.4rem;
-
-  color: var(--fg0);
-
-  margin: 0 auto 1rem;
-
-  box-shadow:
-    0 0 15px var(--glow-green);
-
-  position: relative;
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    border: 9px solid var(--bg2);
+    border-top-color: var(--orange);
+    border-right-color: var(--amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--fg0);
+    margin: 0 auto 1rem;
+    position: relative
 }
 
 .stat-ring::after {
-  content: "";
-
-  position: absolute;
-
-  inset: 7px;
-
-  border-radius: 50%;
-
-  border: 1px dashed var(--border);
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    border: 1px dashed var(--border)
 }
 
-/* =========================================================
-   PROGRESS / RENDIMIENTO
-   ========================================================= */
-
 .rend-row {
-  display: flex;
-
-  align-items: center;
-
-  gap: 0.75rem;
-
-  margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    margin-bottom: .6rem
 }
 
 .rend-bar {
-  flex: 1;
-
-  height: 12px;
-
-  background: var(--bg0);
-
-  border: 1px solid var(--border);
+    flex: 1;
+    height: 15px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    overflow: hidden
 }
 
 .rend-fill {
-  height: 100%;
-
-  background:
-    linear-gradient(
-      90deg,
-      var(--green),
-      var(--aqua)
-    );
-
-  box-shadow:
-    0 0 7px rgba(142, 192, 124, 0.25);
+    height: 100%;
+    background: linear-gradient(90deg, var(--orange), var(--amber));
+    border-radius: 999px
 }
 
-/* =========================================================
-   TABS
-   ========================================================= */
-
 .tabs {
-  display: flex;
-
-  gap: 0.25rem;
-
-  margin-bottom: 1rem;
-
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-bottom: 1rem
 }
 
 .tab {
-  background: var(--bg2);
-
-  border: 1px solid var(--border);
-
-  color: var(--fg2);
-
-  padding: 0.4rem 0.8rem;
-
-  cursor: pointer;
-
-  font-family: inherit;
-
-  transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    border-color 0.15s ease;
+    padding: .6rem 1rem;
+    background: var(--cream);
+    border: 2px solid var(--border);
+    border-radius: 999px;
+    color: var(--fg1);
+    font: 700 .9rem var(--font-main);
+    cursor: pointer
 }
 
 .tab:hover {
-  border-color: var(--yellow);
-
-  color: var(--yellow);
+    border-color: var(--orange);
+    color: var(--rust)
 }
 
 .tab.active {
-  background: var(--orange);
-
-  color: var(--bg0);
-
-  border-color: var(--orange);
-
-  box-shadow:
-    0 0 10px rgba(254, 128, 25, 0.18);
+    background: var(--orange);
+    border-color: var(--orange);
+    color: white
 }
-
-/* =========================================================
-   EMPTY STATE
-   ========================================================= */
 
 .empty {
-  color: var(--fg3);
-
-  font-style: italic;
-
-  padding: 1rem 0;
+    color: var(--fg3);
+    font-style: italic;
+    padding: 1rem 0
 }
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
 
 .footer {
-  text-align: center;
-
-  padding: 1rem;
-
-  font-size: 0.75rem;
-
-  color: var(--fg3);
-
-  border-top: 1px dashed var(--border);
-
-  background: rgba(0, 0, 0, 0.12);
-
-  letter-spacing: 0.05em;
+    text-align: center;
+    padding: 1.3rem;
+    font-size: .8rem;
+    color: var(--fg2);
+    border-top: 3px solid var(--border);
+    background: var(--cream);
+    letter-spacing: .03em
 }
 
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
+@media(max-width:640px) {
+    .topbar {
+        flex-direction: column;
+        align-items: flex-start
+    }
 
-@media (max-width: 640px) {
+    .grid {
+        grid-template-columns: 1fr
+    }
 
-  .topbar {
-    flex-direction: column;
+    .page,
+    .main {
+        padding: 1rem
+    }
 
-    align-items: flex-start;
-  }
+    .login-box {
+        padding: 1.5rem
+    }
 
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .page {
-    padding: 1rem;
-  }
-
-  .main {
-    padding: 1rem;
-  }
-
-  .login-box {
-    margin: 1rem;
-
-    padding: 1.5rem;
-  }
+    .nav a,
+    .nav button.link {
+        padding: .45rem .7rem
+    }
 }
 
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
+@media(prefers-reduced-motion:reduce) {
 
-@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important
+    }
+}
+:root{--border:transparent;--border-bright:transparent;--radius:8px;--shadow:rgba(90,55,31,.09)}
+body {
+    background: linear-gradient(145deg, #f8ecd5 0%, #f1dfc0 100%)
+}
 
-  *,
-  *::before,
-  *::after {
-    transition: none !important;
-  }
+body::before,
+body::after {
+    display: none
+}
+
+.topbar {
+    border: 0;
+    box-shadow: none;
+    background: #fff5e3
+}
+
+.topbar::after {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 9px;
+    background: linear-gradient(to bottom, #d45b2b 0 3px, #f2b34c 3px 6px, #e7a34a 6px 9px);
+    box-shadow: none
+}
+
+h1 {
+    border: 0;
+    padding-bottom: 1.1rem;
+    position: relative
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: min(100%, 290px);
+    height: 12px;
+    background: linear-gradient(to bottom, #d45b2b 0 3px, transparent 3px 4px, #e99535 4px 7px, transparent 7px 8px, #f3c26c 8px 11px, transparent 11px)
+}
+
+.card,
+.panel,
+.login-box {
+    border: 0;
+    background: #fff8eb;
+    border-radius: 8px;
+    box-shadow: 0 6px 22px var(--shadow)
+}
+
+.card {
+    border-top: 0;
+    padding-top: 1.8rem
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 9px;
+    background: linear-gradient(to bottom, #d45b2b 0 3px, #e99c3d 3px 6px, #f1c36c 6px 9px)
+}
+
+.card::after,
+.panel::before,
+.panel::after,
+.login-box::before,
+.login-box::after,
+.login-page::before {
+    display: none
+}
+
+.card:hover {
+    box-shadow: 0 9px 25px rgba(90, 55, 31, .12)
+}
+
+.login-page {
+    background: linear-gradient(155deg, #f9edd7, #eed8b4)
+}
+
+.login-box {
+    border: 0;
+    border-top: 0;
+    padding-top: 2.7rem;
+    overflow: hidden
+}
+
+.login-box::before {
+    display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 12px;
+    border: 0;
+    border-radius: 0;
+    background: linear-gradient(to bottom, #cf5528 0 4px, #e89835 4px 8px, #f3c26c 8px 12px)
+}
+
+.btn,
+.tab,
+.badge,
+.field input,
+.field select,
+.field textarea,
+.alert,
+.table-wrap {
+    border: 0;
+    border-radius: 7px;
+    box-shadow: none
+}
+
+.btn {
+    border-radius: 6px;
+    background: #ead1a8
+}
+
+.btn-primary {
+    background: #d45b2b;
+    color: #fff8eb
+}
+
+.btn-primary:hover {
+    background: #b94b24;
+    color: #fff8eb
+}
+
+.btn-danger {
+    background: #b94432;
+    color: white
+}
+
+.nav a,
+.nav button.link {
+    border-radius: 5px
+}
+
+.field input,
+.field select,
+.field textarea {
+    background: #f8ecd9;
+    outline: 2px solid transparent;
+    outline-offset: 0
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+    outline-color: #d45b2b;
+    box-shadow: none
+}
+
+.alert::before {
+    content: none
+}
+
+.table-wrap {
+    box-shadow: none
+}
+
+.table.data th {
+    border: 0
+}
+
+.tab.active {
+    background: #d45b2b
+}
+
+.badge {
+    background: #f1dfc0
+}
+
+.rend-bar,
+.rend-fill {
+    border: 0;
+    border-radius: 3px
+}
+
+.footer {
+    border: 0;
+    position: relative;
+    padding-top: 1.8rem
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 9px;
+    background: linear-gradient(to bottom, #d45b2b 0 3px, #e99c3d 3px 6px, #f1c36c 6px 9px)
 }

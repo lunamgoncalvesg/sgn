@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import StatusBadge from "@/components/StatusBadge";
+import { label, cursoLabel } from "@/lib/presentation";
 import Shell from "@/components/Shell";
 import { Guard } from "@/components/Guard";
 import { api } from "@/lib/api";
@@ -38,16 +40,16 @@ export default function AuditoriaPage() {
             <tbody>
               {items.map((a) => (
                 <tr key={a.id}>
-                  <td>{a.fec?.slice(0, 16)}</td>
-                  <td>{a.accion}</td>
+                  <td className="numeric">{a.fec?.slice(0, 16)}</td>
+                  <td>{label(a.accion)}</td>
                   <td>{a.alumno}</td>
                   <td>{a.materia}</td>
-                  <td>{a.valAnt}</td>
-                  <td>{a.valNuevo}</td>
+                  <td className="numeric">{a.valAnt}</td>
+                  <td className="numeric">{a.valNuevo}</td>
                   <td>{a.actor}</td>
                   <td>{a.autorizo || "—"}</td>
                   <td>{a.motivo}</td>
-                  <td>{a.est}</td>
+                  <td><StatusBadge status={a.est}/></td>
                 </tr>
               ))}
               {items.length === 0 && !err && (

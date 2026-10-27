@@ -11,6 +11,7 @@ public final class Dtos {
     private Dtos() {}
 
     public record LoginReq(@NotBlank String ident, @NotBlank String pass) {}
+    public record RecuperarPasswordReq(@NotBlank String ident) {}
     public record CambiarPasswordReq(
     @NotBlank String actual,
     @NotBlank String nueva

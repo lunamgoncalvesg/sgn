@@ -75,19 +75,46 @@ public class MailSrv {
         enviar(mailOf, "SGN - Solicitud cambio nota", txt);
     }
 
-    public void passwordTemporal(String destino, String nombre, String password) {
+    public boolean passwordTemporal(String destino, String nombre, String password) {
 
     String txt =
         "Hola " + nombre + ",\n\n" +
-        "Se creó su usuario en el Sistema de Gestión de Notas (SGN).\n\n" +
+        "Se generó una contraseña temporal para acceder al Sistema de Gestión de Notas (SGN).\n\n" +
         "Contraseña temporal: " + password + "\n\n" +
-        "Al ingresar por primera vez deberá cambiar esta contraseña.\n\n" +
+        "Al ingresar deberá cambiar esta contraseña.\n\n" +
         "Escuela Ing. E. Latzina (ET35)";
 
-    enviar(
-        destino,
-        "SGN - Datos de acceso",
-        txt
-    );
+    return enviarConfidencial(destino, "SGN - Contraseña temporal", txt);
+    }
+
+    private boolean enviarConfidencial(String dest, String asunto, String cuerpo) {
+        if (dest == null || dest.isBlank()) return false;
+        var n = new Notificacion();
+        n.setDest(dest);
+        n.setAsunto(asunto);
+        n.setCuerpo("Correo con contraseña temporal; contenido confidencial omitido del registro.");
+        n.setFec(LocalDateTime.now());
+        if (!enabled) {
+            log.info("[MAIL DEV] Para: {} | {} | contenido confidencial omitido", dest, asunto);
+            n.setEnviado(false);
+            n.setError("SGN_MAIL_ENABLED=false — simulado en log");
+            notifRepo.save(n);
+            return false;
+        }
+        try {
+            var msg = new SimpleMailMessage();
+            msg.setFrom(from);
+            msg.setTo(dest);
+            msg.setSubject(asunto);
+            msg.setText(cuerpo);
+            sender.send(msg);
+            n.setEnviado(true);
+        } catch (Exception e) {
+            log.warn("No se pudo enviar correo confidencial a {}: {}", dest, e.getMessage());
+            n.setEnviado(false);
+            n.setError(e.getMessage());
+        }
+        notifRepo.save(n);
+        return n.isEnviado();
 }
 }

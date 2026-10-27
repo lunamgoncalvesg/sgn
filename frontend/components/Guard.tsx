@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import type { TipoUsuario } from "@/lib/types";
 
-export function Guard({ //si tenes sesion te lleva a la ruta correspondiente. si no al login
+export function Guard({
   roles,
   children,
 }: {
@@ -19,6 +19,10 @@ export function Guard({ //si tenes sesion te lleva a la ruta correspondiente. si
     const s = getSession();
     if (!s) {
       router.replace("/login");
+      return;
+    }
+    if (s.primerIngreso) {
+      router.replace("/cambiar-password");
       return;
     }
     if (roles && !roles.includes(s.tipo)) {

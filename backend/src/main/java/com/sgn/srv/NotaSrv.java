@@ -71,6 +71,7 @@ public List<BloqueRes> bloquesProf(String legajo) {
         Bloque b = bloque(bloqueId);
         chkProf(b, actor);
         return inscRepo.findByCursoIdAndAnio(b.getCurso().getId(), b.getAnio()).stream()
+            .filter(Inscripcion::isActiva)
             .map(i -> new AlumnoRes(i.getAlumno().getLegajo(), i.getAlumno().nomCompleto()))
             .sorted(Comparator.comparing(AlumnoRes::nomCompleto))
             .toList();

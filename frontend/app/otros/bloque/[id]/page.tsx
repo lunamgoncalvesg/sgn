@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { label, cursoLabel } from "@/lib/presentation";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import Shell from "@/components/Shell";
@@ -34,8 +35,8 @@ export default function OtrosBloquePage() {
         </p>
         {err && <div className="alert alert-error">{err}</div>}
         <div className="field" style={{ maxWidth: "320px", marginBottom: "1rem" }}>
-          <label>Alumno</label>
-          <select value={sel} onChange={(e) => setSel(e.target.value)}>
+          <label htmlFor="field-1">Alumno</label>
+          <select id="field-1" value={sel} onChange={(e) => setSel(e.target.value)}>
             <option value="">Seleccionar...</option>
             {alumnos.map((a) => (
               <option key={a.legajo} value={a.legajo}>
@@ -58,10 +59,10 @@ export default function OtrosBloquePage() {
               <tbody>
                 {notas.map((n) => (
                   <tr key={n.id}>
-                    <td>{n.tipo}</td>
-                    <td>{n.numPer}</td>
+                    <td>{label(n.tipo)}</td>
+                    <td className="numeric">{n.numPer}</td>
                     <td>{n.titulo || "—"}</td>
-                    <td>{n.val}</td>
+                    <td className="numeric">{n.val}</td>
                   </tr>
                 ))}
               </tbody>

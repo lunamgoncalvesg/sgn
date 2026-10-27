@@ -16,16 +16,16 @@ spring:
         format_sql: true
 
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    host: ${SPRING_MAIL_HOST:smtp.gmail.com}
+    port: ${SPRING_MAIL_PORT:587}
+    username: ${SPRING_MAIL_USERNAME:${MAIL_USERNAME:}}
+    password: ${SPRING_MAIL_PASSWORD:${MAIL_PASSWORD:}}
     properties:
       mail:
         smtp:
-          auth: true
+          auth: ${SGN_MAIL_AUTH:true}
           starttls:
-            enable: true
+            enable: ${SGN_MAIL_STARTTLS:true}
 
 server:
   port: ${SERVER_PORT:8080}
@@ -37,7 +37,7 @@ sgn:
 
   mail:
     enabled: ${SGN_MAIL_ENABLED:true}
-    from: ${SGN_MAIL_FROM:lunamgoncalvesguerreiro@gmail.com}
+    from: ${SGN_MAIL_FROM:${SPRING_MAIL_USERNAME:${MAIL_USERNAME:notificaciones@sgn.local}}}
 
   anio-activo: ${SGN_ANIO_ACTIVO:2026}
 

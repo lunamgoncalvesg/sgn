@@ -62,8 +62,6 @@ var alum2 = usr(usrRepo, enc, "4444", "20666666667", "Angeline", "Iannopollo",
             nota(notaRepo, bLen, alum1, TipoNota.BIM, 1, null, "5.00", prof2);
             nota(notaRepo, bMat, alum2, TipoNota.BIM, 1, null, "6.00", prof1);
 
-            admin.getLegajo();
-            ofic.getLegajo();
         };
     }
 
@@ -111,6 +109,7 @@ var alum2 = usr(usrRepo, enc, "4444", "20666666667", "Angeline", "Iannopollo",
         i.setAlumno(a);
         i.setCurso(c);
         i.setAnio(ANIO);
+        i.setActiva(true);
         repo.save(i);
     }
 

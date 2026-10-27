@@ -1,6 +1,8 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import Toast from "@/components/Toast";
+import { label, cursoLabel } from "@/lib/presentation";
 import Shell from "@/components/Shell";
 import { Guard } from "@/components/Guard";
 import { api } from "@/lib/api";
@@ -102,7 +104,7 @@ export default function AdminPage() {
 
   try {
     const res = await api.resetPassword(legajo);
-    setMsg(res.message);
+    setMsg(res.msg);
   } catch (ex) {
     setErr(ex instanceof Error ? ex.message : "Error al restablecer contraseña");
   }
@@ -152,7 +154,7 @@ export default function AdminPage() {
       <Shell>
         <h1>Administración</h1>
         {err && <div className="alert alert-error">{err}</div>}
-        {msg && <div className="alert alert-ok">{msg}</div>}
+        {msg && <Toast message={msg} onClose={() => setMsg("")}/>}
         <div className="tabs">
           {(["usuarios", "cursos", "materias", "bloques", "mails"] as const).map((t) => (
             <button
@@ -164,7 +166,7 @@ export default function AdminPage() {
                 if (t === "mails") loadMails();
               }}
             >
-              {t}
+              {{usuarios:"Usuarios",cursos:"Cursos",materias:"Materias",bloques:"Bloques",mails:"Correos"}[t]}
             </button>
           ))}
         </div>
@@ -175,35 +177,35 @@ export default function AdminPage() {
               <h2>Crear usuario</h2>
               <form className="form form-wide" onSubmit={crearUsr}>
                 <div className="field">
-                  <label>Legajo</label>
-                  <input value={form.legajo} onChange={(e) => setForm({ ...form, legajo: e.target.value })} required />
+                  <label htmlFor="field-1">Legajo</label>
+                  <input id="field-1" value={form.legajo} onChange={(e) => setForm({ ...form, legajo: e.target.value })} required />
                 </div>
                 <div className="field">
-                  <label>CUIL (11 dígitos)</label>
-                  <input value={form.cuil} onChange={(e) => setForm({ ...form, cuil: e.target.value })} required />
+                  <label htmlFor="field-2">CUIL (11 dígitos)</label>
+                  <input id="field-2" value={form.cuil} onChange={(e) => setForm({ ...form, cuil: e.target.value })} required />
                 </div>
                 <div className="field">
-                  <label>Nombre</label>
-                  <input value={form.nom} onChange={(e) => setForm({ ...form, nom: e.target.value })} required />
+                  <label htmlFor="field-3">Nombre</label>
+                  <input id="field-3" value={form.nom} onChange={(e) => setForm({ ...form, nom: e.target.value })} required />
                 </div>
                 <div className="field">
-                  <label>Apellido</label>
-                  <input value={form.ape} onChange={(e) => setForm({ ...form, ape: e.target.value })} required />
+                  <label htmlFor="field-4">Apellido</label>
+                  <input id="field-4" value={form.ape} onChange={(e) => setForm({ ...form, ape: e.target.value })} required />
                 </div>
                 <div className="field">
-                  <label>Mail</label>
-                  <input type="email" value={form.mail} onChange={(e) => setForm({ ...form, mail: e.target.value })} required />
+                  <label htmlFor="field-5">Mail</label>
+                  <input id="field-5" type="email" value={form.mail} onChange={(e) => setForm({ ...form, mail: e.target.value })} required />
                 </div>
                 <div className="field">
-                  <label>Mail tutor (alumnos)</label>
-                  <input type="email" value={form.mailTutor} onChange={(e) => setForm({ ...form, mailTutor: e.target.value })} />
+                  <label htmlFor="field-6">Mail tutor (alumnos)</label>
+                  <input id="field-6" type="email" value={form.mailTutor} onChange={(e) => setForm({ ...form, mailTutor: e.target.value })} />
                 </div>
                 
                 <div className="field">
-                  <label>Rol</label>
-                  <select value={form.tipo} onChange={(e) => setForm({ ...form, tipo: e.target.value })}>
+                  <label htmlFor="field-7">Rol</label>
+                  <select id="field-7" value={form.tipo} onChange={(e) => setForm({ ...form, tipo: e.target.value })}>
                     {TIPOS.map((t) => (
-                      <option key={t}>{t}</option>
+                      <option key={t} value={t}>{label(t)}</option>
                     ))}
                   </select>
                 </div>
@@ -218,25 +220,25 @@ export default function AdminPage() {
                 <h2>Editar {edit.legajo}</h2>
                 <form className="form" onSubmit={guardarEdit}>
                   <div className="field">
-                    <label>Nombre</label>
-                    <input value={edit.nom} onChange={(e) => setEdit({ ...edit, nom: e.target.value })} />
+                    <label htmlFor="field-8">Nombre</label>
+                    <input id="field-8" value={edit.nom} onChange={(e) => setEdit({ ...edit, nom: e.target.value })} />
                   </div>
                   <div className="field">
-                    <label>Apellido</label>
-                    <input value={edit.ape} onChange={(e) => setEdit({ ...edit, ape: e.target.value })} />
+                    <label htmlFor="field-9">Apellido</label>
+                    <input id="field-9" value={edit.ape} onChange={(e) => setEdit({ ...edit, ape: e.target.value })} />
                   </div>
                   <div className="field">
-                    <label>Mail</label>
-                    <input value={edit.mail} onChange={(e) => setEdit({ ...edit, mail: e.target.value })} />
+                    <label htmlFor="field-10">Mail</label>
+                    <input id="field-10" value={edit.mail} onChange={(e) => setEdit({ ...edit, mail: e.target.value })} />
                   </div>
                   <div className="field">
-                    <label>Rol</label>
-                    <select
+                    <label htmlFor="field-11">Rol</label>
+                    <select id="field-11"
                       value={edit.tipo}
                       onChange={(e) => setEdit({ ...edit, tipo: e.target.value as Usuario["tipo"] })}
                     >
                       {TIPOS.map((t) => (
-                        <option key={t}>{t}</option>
+                        <option key={t} value={t}>{label(t)}</option>
                       ))}
                     </select>
                   </div>
@@ -268,13 +270,13 @@ export default function AdminPage() {
                 <tbody>
                   {users.map((u) => (
                     <tr key={u.legajo}>
-                      <td>{u.legajo}</td>
-                      <td>{u.cuil}</td>
+                      <td className="numeric">{u.legajo}</td>
+                      <td className="numeric">{u.cuil}</td>
                       <td>
                         {u.nom} {u.ape}
                       </td>
                       <td>{u.mail}</td>
-                      <td>{u.tipo}</td>
+                      <td>{label(u.tipo)}</td>
                       <td>{u.activo ? "Sí" : "No"}</td>
                       <td>
                         <div className="btn-row">
@@ -317,26 +319,26 @@ export default function AdminPage() {
               <h2>Nuevo curso</h2>
               <form className="form" onSubmit={crearCurso}>
                 <div className="field">
-                  <label>Año</label>
-                  <input type="number" value={curso.anio} onChange={(e) => setCurso({ ...curso, anio: Number(e.target.value) })} />
+                  <label htmlFor="field-12">Año</label>
+                  <input id="field-12" type="number" value={curso.anio} onChange={(e) => setCurso({ ...curso, anio: Number(e.target.value) })} />
                 </div>
                 <div className="field">
-                  <label>División</label>
-                  <input type="number" value={curso.div} onChange={(e) => setCurso({ ...curso, div: Number(e.target.value) })} />
+                  <label htmlFor="field-13">División</label>
+                  <input id="field-13" type="number" value={curso.div} onChange={(e) => setCurso({ ...curso, div: Number(e.target.value) })} />
                 </div>
                 <div className="field">
-                  <label>Turno</label>
-                  <select value={curso.turno} onChange={(e) => setCurso({ ...curso, turno: e.target.value })}>
-                    <option>MANANA</option>
-                    <option>TARDE</option>
-                    <option>NOCHE</option>
+                  <label htmlFor="field-14">Turno</label>
+                  <select id="field-14" value={curso.turno} onChange={(e) => setCurso({ ...curso, turno: e.target.value })}>
+                    <option value="MANANA">{label("MANANA")}</option>
+                    <option value="TARDE">{label("TARDE")}</option>
+                    <option value="NOCHE">{label("NOCHE")}</option>
                   </select>
                 </div>
                 <div className="field">
-                  <label>Especialidad</label>
-                  <select value={curso.esp} onChange={(e) => setCurso({ ...curso, esp: e.target.value })}>
-                    <option>COMPUTACION</option>
-                    <option>AUTOMOTORES</option>
+                  <label htmlFor="field-15">Especialidad</label>
+                  <select id="field-15" value={curso.esp} onChange={(e) => setCurso({ ...curso, esp: e.target.value })}>
+                    <option value="COMPUTACION">{label("COMPUTACION")}</option>
+                    <option value="AUTOMOTORES">{label("AUTOMOTORES")}</option>
                   </select>
                 </div>
                 <button type="submit" className="btn btn-primary">
@@ -356,9 +358,9 @@ export default function AdminPage() {
                 <tbody>
                   {cursos.map((c) => (
                     <tr key={c.id}>
-                      <td>{c.etiqueta}</td>
-                      <td>{c.turno}</td>
-                      <td>{c.esp}</td>
+                      <td>{cursoLabel(c.etiqueta)}</td>
+                      <td>{label(c.turno)}</td>
+                      <td>{label(c.esp)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -373,19 +375,36 @@ export default function AdminPage() {
               <h2>Nueva materia</h2>
               <form className="form" onSubmit={crearMat}>
                 <div className="field">
-                  <label>Nombre</label>
-                  <input value={matNom} onChange={(e) => setMatNom(e.target.value)} required />
+                  <label htmlFor="field-16">Nombre</label>
+                  <input id="field-16" value={matNom} onChange={(e) => setMatNom(e.target.value)} required />
                 </div>
                 <button type="submit" className="btn btn-primary">
                   Crear
                 </button>
               </form>
             </div>
-            <ul>
-              {materias.map((m) => (
-                <li key={m.id}>{m.nom}</li>
-              ))}
-            </ul>
+            <h2 id="materias-creadas">Materias creadas</h2>
+            <div className="table-wrap">
+              <table className="data" aria-labelledby="materias-creadas">
+                <thead>
+                  <tr>
+                    <th scope="col">Nombre</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {materias.map((m) => (
+                    <tr key={m.id}>
+                      <td>{m.nom}</td>
+                    </tr>
+                  ))}
+                  {materias.length === 0 && (
+                    <tr>
+                      <td className="empty">No hay materias creadas.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </>
         )}
 
@@ -394,8 +413,8 @@ export default function AdminPage() {
             <h2>Asignar docente a materia/curso</h2>
             <form className="form" onSubmit={asignar}>
               <div className="field">
-                <label>Materia</label>
-                <select
+                <label htmlFor="field-17">Materia</label>
+                <select id="field-17"
                   value={bloque.materiaId}
                   onChange={(e) => setBloque({ ...bloque, materiaId: Number(e.target.value) })}
                 >
@@ -407,21 +426,21 @@ export default function AdminPage() {
                 </select>
               </div>
               <div className="field">
-                <label>Curso</label>
-                <select
+                <label htmlFor="field-18">Curso</label>
+                <select id="field-18"
                   value={bloque.cursoId}
                   onChange={(e) => setBloque({ ...bloque, cursoId: Number(e.target.value) })}
                 >
                   {cursos.map((c) => (
                     <option key={c.id} value={c.id}>
-                      {c.etiqueta}
+                      {cursoLabel(c.etiqueta)}
                     </option>
                   ))}
                 </select>
               </div>
               <div className="field">
-                <label>Docente</label>
-                <select
+                <label htmlFor="field-19">Docente</label>
+                <select id="field-19"
                   value={bloque.profLegajo}
                   onChange={(e) => setBloque({ ...bloque, profLegajo: e.target.value })}
                 >
@@ -434,8 +453,8 @@ export default function AdminPage() {
                 </select>
               </div>
               <div className="field">
-                <label>Año lectivo</label>
-                <input
+                <label htmlFor="field-20">Año lectivo</label>
+                <input id="field-20"
                   type="number"
                   value={bloque.anio}
                   onChange={(e) => setBloque({ ...bloque, anio: Number(e.target.value) })}
@@ -463,7 +482,7 @@ export default function AdminPage() {
               <tbody>
                 {mails.map((m) => (
                   <tr key={m.id}>
-                    <td>{m.fec?.slice(0, 16)}</td>
+                    <td className="numeric">{m.fec?.slice(0, 16)}</td>
                     <td>{m.dest}</td>
                     <td>{m.asunto}</td>
                     <td>{m.enviado ? "Sí" : "No"}</td>

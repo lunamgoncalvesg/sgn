@@ -23,6 +23,14 @@ public class AuthCtrl {
         return srv.login(req);
     }
 
+    @PostMapping("/recuperar-password")
+    public MsgRes recuperarPassword(@Valid @RequestBody RecuperarPasswordReq req) {
+        try {
+            srv.recuperarPassword(req.ident());
+        } catch (IllegalStateException ignored) {}
+        return new MsgRes("Si existe una cuenta activa con ese identificador, se enviará una contraseña temporal al correo registrado.");
+    }
+
     @PostMapping("/cambiar-password")
     public void cambiarPassword(
             @Valid @RequestBody CambiarPasswordReq req,

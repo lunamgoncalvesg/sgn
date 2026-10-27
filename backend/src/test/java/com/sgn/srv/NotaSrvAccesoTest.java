@@ -2,6 +2,7 @@ package com.sgn.srv;
 
 import com.sgn.ent.Bloque;
 import com.sgn.ent.Curso;
+import com.sgn.ent.Inscripcion;
 import com.sgn.ent.Usuario;
 import com.sgn.enm.TipoUsr;
 import com.sgn.repo.BloqueRepo;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -80,5 +82,24 @@ class NotaSrvAccesoTest {
         prof.setTipo(TipoUsr.PROFESOR);
         var req = new com.sgn.dto.Dtos.SolReq(1L, "  ", java.math.BigDecimal.TEN);
         assertThrows(IllegalArgumentException.class, () -> srv.solCambio(req, prof));
+    }
+
+    @Test
+    void listadoDeCursoExcluyeInscripcionesInactivas() {
+        var activa = new Inscripcion();
+        activa.setAlumno(alumA);
+        activa.setActiva(true);
+        var anterior = new Inscripcion();
+        anterior.setAlumno(alumB);
+        anterior.setActiva(false);
+        var oficina = new Usuario();
+        oficina.setTipo(TipoUsr.OFICINA);
+        when(bloqueRepo.findById(10L)).thenReturn(Optional.of(bloque));
+        when(inscRepo.findByCursoIdAndAnio(1L, 2026)).thenReturn(List.of(activa, anterior));
+
+        var alumnos = srv.alumnosBloque(10L, oficina);
+
+        assertEquals(1, alumnos.size());
+        assertEquals(alumA.getLegajo(), alumnos.get(0).legajo());
     }
 }

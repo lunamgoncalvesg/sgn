@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import Toast from "@/components/Toast";
 import Shell from "@/components/Shell";
 import { Guard } from "@/components/Guard";
 import { api } from "@/lib/api";
@@ -45,7 +46,7 @@ export default function ReportesProfPage() {
       <Shell>
         <h1>Reportes de alumnos</h1>
         {err && <div className="alert alert-error">{err}</div>}
-        {ok && <div className="alert alert-ok">{ok}</div>}
+        {ok && <Toast message={ok} onClose={() => setOk("")}/>}
         <div className="table-wrap">
           <table className="data">
             <thead>
@@ -63,7 +64,7 @@ export default function ReportesProfPage() {
                   <td>{r.alumno}</td>
                   <td>{r.materia}</td>
                   <td>{r.motivo}</td>
-                  <td>{r.fecRep?.slice(0, 16)}</td>
+                  <td className="numeric">{r.fecRep?.slice(0, 16)}</td>
                   <td>
                     <button
                       type="button"
@@ -90,8 +91,8 @@ export default function ReportesProfPage() {
             <h2>Solicitar corrección — {sel.alumno}</h2>
             <form className="form" onSubmit={enviar}>
               <div className="field">
-                <label>Nueva nota</label>
-                <input
+                <label htmlFor="field-1">Nueva nota</label>
+                <input id="field-1"
                   type="number"
                   step="0.01"
                   min="1"
@@ -102,8 +103,8 @@ export default function ReportesProfPage() {
                 />
               </div>
               <div className="field">
-                <label>Motivo adicional</label>
-                <textarea value={mot} onChange={(e) => setMot(e.target.value)} required />
+                <label htmlFor="field-2">Motivo adicional</label>
+                <textarea id="field-2" value={mot} onChange={(e) => setMot(e.target.value)} required />
               </div>
               <div className="btn-row">
                 <button type="submit" className="btn btn-primary">

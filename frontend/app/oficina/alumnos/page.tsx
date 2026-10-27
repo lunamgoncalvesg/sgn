@@ -1,6 +1,8 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import Toast from "@/components/Toast";
+import { label, cursoLabel } from "@/lib/presentation";
 import Shell from "@/components/Shell";
 import { Guard } from "@/components/Guard";
 import { api } from "@/lib/api";
@@ -39,22 +41,22 @@ export default function OficinaAlumnosPage() {
       <Shell>
         <h1>Gestión de alumnos</h1>
         {err && <div className="alert alert-error">{err}</div>}
-        {ok && <div className="alert alert-ok">{ok}</div>}
+        {ok && <Toast message={ok} onClose={() => setOk("")}/>}
 
         <div className="panel">
           <h2>Asignar alumno a curso</h2>
           <form className="form" onSubmit={asignar}>
             <div className="field">
-              <label>Legajo</label>
-              <input
+              <label htmlFor="field-1">Legajo</label>
+              <input id="field-1"
                 value={insc.legajo}
                 onChange={(e) => setInsc({ ...insc, legajo: e.target.value })}
                 required
               />
             </div>
             <div className="field">
-              <label>Curso</label>
-              <select
+              <label htmlFor="field-2">Curso</label>
+              <select id="field-2"
                 value={insc.cursoId}
                 onChange={(e) =>
                   setInsc({ ...insc, cursoId: Number(e.target.value) })
@@ -62,14 +64,14 @@ export default function OficinaAlumnosPage() {
               >
                 {cursos.map((c) => (
                   <option key={c.id} value={c.id}>
-                    {c.etiqueta} — {c.esp}
+                    {cursoLabel(c.etiqueta)} — {label(c.esp)}
                   </option>
                 ))}
               </select>
             </div>
             <div className="field">
-              <label>Año lectivo</label>
-              <input
+              <label htmlFor="field-3">Año lectivo</label>
+              <input id="field-3"
                 type="number"
                 value={insc.anio}
                 onChange={(e) => setInsc({ ...insc, anio: Number(e.target.value) })}
@@ -96,7 +98,7 @@ export default function OficinaAlumnosPage() {
             <tbody>
               {alumnos.map((a) => (
                 <tr key={a.legajo}>
-                  <td>{a.legajo}</td>
+                  <td className="numeric">{a.legajo}</td>
                   <td>
                     {a.nom} {a.nom2} {a.ape} {a.ape2}
                   </td>

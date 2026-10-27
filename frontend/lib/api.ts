@@ -1,38 +1,42 @@
-import { authHeader, getSession } from "./auth";
+import { authHeader, clearSession, getSession } from "./auth";
 
 const BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
 async function req<T>(path: string, opts: RequestInit = {}): Promise<T> {
+  const isPublicAuthPath = path === "/api/auth/login" || path === "/api/auth/recuperar-password";
   const res = await fetch(`${BASE}${path}`, {
     ...opts,
     headers: {
       "Content-Type": "application/json",
-      ...authHeader(),
+      ...(isPublicAuthPath ? {} : authHeader()),
       ...(opts.headers || {}),
     },
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: res.statusText }));
-    if (res.status === 401 && !path.includes("/auth/login")) {
+    if (res.status === 401 && !isPublicAuthPath) {
       if (typeof window !== "undefined") {
-        localStorage.removeItem("sgn_session");
+        clearSession();
+        window.location.replace("/login");
       }
     }
     throw new Error(err.error || "Error de servidor");
   }
   if (res.status === 204) return undefined as T;
 
-const text = await res.text();
-
-if (!text) return undefined as T;
-
-return JSON.parse(text);
+  const text = await res.text();
+  if (!text) return undefined as T;
+  return JSON.parse(text);
 }
 
 export async function downloadPdf(path: string, filename: string) {
   const res = await fetch(`${BASE}${path}`, { headers: { ...authHeader() } });
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: res.statusText }));
+    if (res.status === 401) {
+      clearSession();
+      window.location.replace("/login");
+    }
     throw new Error(err.error || "No se pudo descargar el PDF");
   }
   const blob = await res.blob();
@@ -56,6 +60,11 @@ export const api = {
     method: "POST",
     body: JSON.stringify({ ident, pass }),
   }),
+  recuperarPassword: (ident: string) =>
+    req<{ msg: string }>("/api/auth/recuperar-password", {
+      method: "POST",
+      body: JSON.stringify({ ident }),
+    }),
   cambiarPassword: (actual: string, nueva: string) =>
   req<void>("/api/auth/cambiar-password", {
     method: "POST",
@@ -63,7 +72,7 @@ export const api = {
   }),
   me: () => req<import("./types").Perfil>("/api/usuarios/me"),
 resetPassword: (legajo: string) =>
-  req<{ message: string }>(`/api/usuarios/${legajo}/reset-password`, {
+  req<{ msg: string }>(`/api/usuarios/${legajo}/reset-password`, {
     method: "POST",
   }),
   bloquesProf: () => req<import("./types").Bloque[]>("/api/notas/bloques/prof"),
