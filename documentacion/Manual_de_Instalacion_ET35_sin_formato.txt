@@ -1,0 +1,303 @@
+MANUAL DE INSTALACIÓN Y PUESTA EN MARCHA
+
+Sistema de Gestión de Notas — ET35
+
+Guía para instalar el sistema desde cero en una computadora con Windows, aunque nunca se haya programado.
+
+Nota: Versión preparada para el repositorio GitHub: lunamgoncalvesg/sgn. Actualizada el 27 de octubre de 2026.
+
+Antes de empezar
+
+Este manual explica cómo obtener el proyecto, instalar los programas necesarios, preparar la base de datos y abrir el sistema en el navegador. Conviene seguir los pasos en el orden indicado y no cerrar las ventanas de servidor mientras se usa la página.
+
+La instalación se describe para Windows 10 u 11 de 64 bits. Se necesita conexión a Internet durante las descargas y la primera ejecución. El sistema queda instalado para uso local en esa computadora; no queda publicado en Internet.
+
+Qué se va a instalar
+
+• Java 17: permite ejecutar el servidor del sistema.
+
+• Apache Maven: prepara y ejecuta el servidor Java.
+
+• Node.js LTS: permite preparar y ejecutar la página web.
+
+• PostgreSQL y pgAdmin: guardan la información del sistema.
+
+No hace falta instalar Docker ni MailHog. Tampoco se necesita instalar Git si se descarga el proyecto como archivo ZIP. El navegador ya instalado en Windows sirve para abrir la página.
+
+El recorrido es: descargar el proyecto, instalar Java, Node.js, Maven y PostgreSQL, crear la base sgn, iniciar el servidor y abrir la página.
+
+1. Obtener el proyecto
+
+Opción recomendada: descargar desde GitHub
+
+1. Abrir esta dirección en el navegador: https://github.com/lunamgoncalvesg/sgn
+
+2. En la página del proyecto, seleccionar el botón verde Code y luego Download ZIP.
+
+3. Cuando termine la descarga, abrir la carpeta Descargas. Hacer clic derecho sobre sgn-main.zip y elegir Extraer todo. Si el nombre del ZIP cambia, elegir el archivo que se acaba de descargar desde el proyecto sgn.
+
+4. Elegir una ubicación fácil de encontrar, por ejemplo el Escritorio, y pulsar Extraer.
+
+5. Abrir la carpeta extraída. Adentro tienen que aparecer las carpetas backend, frontend y el archivo README.md. Esa carpeta es la carpeta principal del proyecto.
+
+Nota: No ejecutar el sistema dentro del ZIP. Primero hay que extraerlo. Si se entrega en un pendrive, copiar la carpeta completa a la computadora antes de empezar.
+
+Opción alternativa: copiar desde un pendrive
+
+Copiar la carpeta completa del proyecto desde el pendrive al Escritorio o a Documentos. No cambiar de lugar ni borrar las carpetas backend o frontend. El pendrive puede retirarse una vez terminada la copia.
+
+2. Instalar los programas necesarios
+
+Los instaladores se descargan de sus sitios oficiales. Durante la instalación se pueden dejar las opciones recomendadas. Si Windows pregunta si se permite hacer cambios en el equipo, confirmar solo cuando el programa y el sitio coincidan con los indicados en este manual.
+
+2.1 Instalar Java 17
+
+1. Abrir https://adoptium.net/temurin/releases/?version=17.
+
+2. Elegir Windows, la arquitectura x64 y el paquete JDK. Descargar el instalador MSI.
+
+3. Abrir el archivo descargado y aceptar la licencia. En la pantalla de opciones, dejar activadas las opciones para agregar Java al PATH y definir JAVA_HOME si aparecen.
+
+4. Completar la instalación y cerrar el instalador.
+
+JDK significa kit de desarrollo de Java. El proyecto requiere Java 17; instalar solo un navegador o un programa llamado Java Runtime no alcanza.
+
+2.2 Instalar Node.js
+
+1. Abrir https://nodejs.org/en/download y descargar la versión LTS para Windows (archivo .msi). No elegir la versión Current.
+
+2. Abrir el instalador, aceptar las opciones predeterminadas y terminar la instalación.
+
+Node.js instala también npm, que el sistema usa para descargar las piezas de la página web.
+
+2.3 Instalar Apache Maven
+
+La forma más sencilla es usar Administrador de paquetes de Windows (winget), que viene en muchas instalaciones actuales de Windows 10 y 11.
+
+1. Abrir Inicio, escribir Terminal o PowerShell y abrir la aplicación.
+
+2. Escribir este comando y presionar Enter:
+
+winget install --id Apache.Maven -e
+
+3. Si pregunta si se acepta el origen o los términos, leer el mensaje y escribir Y para continuar. Esperar a que indique que terminó.
+
+Si aparece que winget no se reconoce, instalar Maven manualmente:
+
+1. Abrir https://maven.apache.org/download.cgi y descargar el archivo Binary zip archive (apache-maven-3.10.0-bin.zip, o el que indique la página si hay una versión más nueva).
+
+2. En el Explorador de archivos, escribir %USERPROFILE% en la barra de dirección y presionar Enter. Crear allí una carpeta llamada Maven.
+
+3. Ir a Descargas, hacer clic derecho sobre el ZIP de Maven y elegir Extraer todo. Mover la carpeta extraída apache-maven-3.10.0 dentro de la carpeta Maven creada en el paso anterior.
+
+4. Abrir Inicio y buscar Editar las variables de entorno de la cuenta. Abrir el resultado, seleccionar Path en Variables de usuario y pulsar Editar. Elegir Nuevo y escribir %USERPROFILE%\Maven\apache-maven-3.10.0\bin. Aceptar todas las ventanas.
+
+5. Cerrar y volver a abrir PowerShell. Escribir mvn -v para comprobar que se instaló.
+
+Si se descargó una versión más nueva, reemplazar 3.10.0 en la ruta por el nombre real de la carpeta extraída. Las instrucciones oficiales están en https://maven.apache.org/install.html.
+
+2.4 Instalar PostgreSQL y pgAdmin
+
+1. Abrir https://www.postgresql.org/download/windows/ y elegir el instalador interactivo de Windows. El enlace lleva al instalador gráfico mantenido por EDB e incluye PostgreSQL y pgAdmin.
+
+2. Descargar la versión estable disponible y abrir el instalador. Dejar la carpeta y el puerto predeterminados (5432). En la selección de componentes, asegurarse de incluir PostgreSQL Server y pgAdmin 4.
+
+3. Cuando el instalador pida una contraseña para el usuario postgres, escribir 1234 y anotarla. El proyecto está preparado para usar esa contraseña en una instalación local de demostración. No reutilizarla para una base de datos expuesta en Internet.
+
+4. Mantener el puerto 5432 y finalizar la instalación. Si pregunta por Stack Builder al final, se puede cerrar: no es necesario para este proyecto.
+
+Importante: La contraseña postgres es distinta de la contraseña para entrar al sistema. La primera conecta el programa con la base de datos. La segunda se usa en la pantalla de inicio de sesión.
+
+3. Comprobar que Windows reconoce las herramientas
+
+Después de instalar Java, Maven y Node.js, cerrar cualquier ventana de Terminal que ya estuviera abierta. Abrir una nueva desde Inicio y ejecutar los comandos, uno por vez. Cada comando se confirma con Enter.
+
+java -version
+
+Debe mostrarse una versión de Java 17.
+
+mvn -v
+
+Debe mostrarse la versión de Apache Maven y la versión de Java que usa.
+
+node -v
+
+npm -v
+
+Los dos últimos comandos deben mostrar números de versión. Si Windows dice que un comando no se reconoce, reiniciar la computadora. Si sigue igual, revisar la instalación de ese programa.
+
+4. Crear la base de datos
+
+La base de datos debe llamarse sgn. El servidor crea las tablas y los datos iniciales la primera vez que se inicia, pero primero hay que crear la base vacía.
+
+1. Abrir pgAdmin 4 desde el menú Inicio. La primera apertura puede tardar un poco.
+
+2. En el panel de la izquierda, abrir Servers y luego el servidor PostgreSQL instalado. Si pide una contraseña, escribir 1234 (o la contraseña elegida durante la instalación).
+
+3. Hacer clic derecho en Databases, seleccionar Create y después Database.
+
+4. En Database escribir sgn. En Owner elegir postgres. Pulsar Save.
+
+5. Confirmar que aparece sgn debajo de Databases. No es necesario crear tablas ni ejecutar código SQL.
+
+Si se eligió otra contraseña al instalar PostgreSQL, consultar la sección de problemas frecuentes antes de iniciar el servidor.
+
+5. Iniciar el sistema por primera vez
+
+El sistema se compone de dos programas que deben estar abiertos al mismo tiempo: el servidor (backend) y la página web (frontend). Para que sea más fácil, se abrirán en dos ventanas separadas.
+
+5.1 Abrir una terminal en la carpeta del proyecto
+
+1. Abrir en el Explorador de archivos la carpeta principal extraída, donde se ven backend y frontend.
+
+2. Hacer clic en la barra de dirección de arriba, escribir powershell y presionar Enter. Se abrirá una ventana de PowerShell ubicada en esa carpeta.
+
+Nota: En Windows 11 también puede aparecer Abrir en Terminal al hacer clic derecho dentro de la carpeta. Lo importante es que la ventana quede abierta en la carpeta principal del proyecto.
+
+5.2 Iniciar el servidor
+
+En la primera ventana, escribir estos dos comandos, uno por vez:
+
+cd backend
+mvn spring-boot:run
+
+La primera ejecución puede tardar varios minutos. Maven descarga componentes necesarios de Internet y luego inicia el sistema. Esperar hasta que aparezca un mensaje parecido a Started ...Application. No cerrar esta ventana.
+
+Si el servidor muestra un error de conexión a PostgreSQL, detenerlo con Ctrl+C y consultar los problemas frecuentes. No iniciar todavía la página web hasta que el servidor haya arrancado.
+
+5.3 Preparar e iniciar la página
+
+1. Abrir otra ventana de PowerShell desde la misma carpeta principal. Repetir los pasos para abrir PowerShell desde el Explorador, sin cerrar la primera ventana.
+
+3. En la segunda ventana, escribir estos comandos:
+
+cd frontend
+npm install
+npm run dev
+
+npm install se necesita la primera vez y puede tardar unos minutos. Descarga las dependencias declaradas por el proyecto. Cuando termine, npm run dev inicia la página. No cerrar esta ventana.
+
+5.4 Abrir el sistema
+
+1. Abrir Chrome, Edge o Firefox.
+
+2. Escribir esta dirección en la barra de arriba y presionar Enter: http://localhost:3000
+
+Si aparece la pantalla de inicio de sesión, la instalación está funcionando. La dirección localhost solo funciona en esa misma computadora.
+
+6. Ingresar y probar la instalación
+
+Al iniciar por primera vez con una base de datos vacía, el programa carga datos de demostración. La cuenta de administración inicial usa estos datos:
+
+Usuario (CUIL): 20111111112
+Contraseña: 1234
+
+Importante: La cuenta inicial es solo para probar el sistema local. Cambiar la contraseña si la pantalla lo solicita y no usar estos datos en un servidor público. No compartir cuentas o información personal de alumnos.
+
+Si ya había datos en la base antes de iniciar el programa, el sistema no vuelve a cargar automáticamente los datos de demostración. En ese caso, usar una cuenta existente.
+
+Cómo saber si todo está funcionando
+
+• La primera ventana de PowerShell sigue abierta y no muestra un error fatal.
+
+• La segunda ventana de PowerShell muestra que Next.js está listo, normalmente con la dirección localhost:3000.
+
+• El navegador abre la pantalla de inicio de sesión y permite ingresar con una cuenta válida.
+
+7. Usarlo otro día y cerrarlo correctamente
+
+Para volver a abrirlo
+
+1. Confirmar que el servicio de PostgreSQL está iniciado. Normalmente Windows lo inicia automáticamente.
+
+2. Abrir una ventana de PowerShell en la carpeta principal y ejecutar cd backend y luego mvn spring-boot:run.
+
+3. Abrir otra ventana de PowerShell en la misma carpeta y ejecutar cd frontend y luego npm run dev. No hace falta repetir npm install salvo que se hayan actualizado dependencias o se haya borrado node_modules.
+
+4. Ir a http://localhost:3000.
+
+Para cerrar el sistema
+
+1. En cada ventana de PowerShell, hacer clic dentro de la ventana y presionar Ctrl+C.
+
+2. Cuando pregunte si se desea terminar el proceso, confirmar con Y si aparece esa pregunta.
+
+3. Cerrar las ventanas. Los datos quedan guardados en PostgreSQL; cerrar el sistema de esta manera no los borra.
+
+8. Problemas frecuentes
+
+‘java’ o ‘mvn’ no se reconoce como un comando
+
+Cerrar PowerShell y abrirlo de nuevo. Si sigue pasando, reiniciar Windows. Comprobar que se instaló JDK 17 y que Maven está agregado al PATH. El comando mvn -v debe mostrar ambas herramientas.
+
+‘npm’ o ‘node’ no se reconoce
+
+Instalar Node.js desde nodejs.org, reiniciar Windows y volver a probar node -v y npm -v.
+
+El servidor dice que no puede conectar con PostgreSQL
+
+Verificar que PostgreSQL está iniciado, que la base se llama sgn y que el puerto es 5432. Si durante la instalación se eligió una contraseña distinta de 1234, abrir el archivo backend/src/main/resources/application.yml con el Bloc de notas y cambiar el valor 1234 de la línea de contraseña por la contraseña que se creó. Guardar y volver a ejecutar mvn spring-boot:run. No cambiar otras líneas.
+
+La base sgn ya existe
+
+No crearla de nuevo. En pgAdmin revisar que esté debajo de Databases y continuar con el inicio del servidor.
+
+El navegador dice que no se puede acceder
+
+Comprobar que las dos ventanas siguen abiertas, que el servidor terminó de iniciar y que la dirección es exactamente http://localhost:3000. Si la página web no se inició, en su ventana ejecutar npm run dev.
+
+El puerto ya está en uso
+
+Puede haber quedado abierta una ejecución anterior. Buscar sus ventanas de PowerShell y detenerla con Ctrl+C. Después, iniciar cada parte una sola vez.
+
+npm install o Maven quedan descargando o fallan
+
+La primera preparación necesita Internet. Revisar la conexión y volver a ejecutar el comando que falló desde la carpeta correcta. Algunas redes escolares bloquean descargas; probar en una red permitida o consultar al responsable de la red.
+
+La pantalla para recuperar contraseña no envía un correo
+
+El correo es opcional y depende de una cuenta SMTP autorizada. Sin esa configuración se puede iniciar y probar el resto del sistema, pero no se enviarán correos. Ver el apéndice de correo; no escribir contraseñas de Gmail en GitHub ni en este manual.
+
+9. Copias y cuidado de los datos
+
+Los datos se guardan en PostgreSQL, no dentro de la carpeta frontend. Copiar solamente el código a un pendrive no crea una copia de las notas cargadas. Para conservar datos, quien administre la computadora debe generar una copia de seguridad desde pgAdmin o con las herramientas de PostgreSQL.
+
+No borrar la base sgn ni desinstalar PostgreSQL si se quieren conservar los datos. Si se trabaja solo con información de prueba, se puede reinstalar la base, pero eso elimina su contenido.
+
+Apéndice A. Correo electrónico (opcional)
+
+La configuración de Gmail no es necesaria para arrancar el proyecto. Se requiere solo para enviar correos, por ejemplo al recuperar una contraseña. Para habilitarla, el responsable debe configurar credenciales SMTP propias y seguras en Windows o en la configuración del servidor.
+
+Una contraseña de aplicación de Google es secreta. No se debe incluir en el repositorio, el pendrive, capturas, documentos o mensajes. Si se cambia de computadora, volver a configurar las credenciales en esa computadora. No usar la contraseña habitual de Gmail.
+
+El archivo .env.example del proyecto es una plantilla de ejemplo; Spring Boot no lo carga automáticamente. No pegar allí una contraseña esperando que el correo quede configurado. Si se necesita habilitar esta función, debe hacerlo alguien que pueda configurar variables de entorno del sistema y comprobar el envío.
+
+Apéndice B. Datos técnicos de referencia
+
+• Página web: http://localhost:3000
+
+• Servidor del sistema: http://localhost:8080
+
+• Base de datos: PostgreSQL, base sgn, puerto 5432
+
+• Backend: Java 17 y Maven
+
+• Frontend: Node.js LTS y npm
+
+• No se requiere Docker, MailHog ni Git para el procedimiento de descarga ZIP.
+
+Sitios oficiales
+
+Proyecto en GitHub: https://github.com/lunamgoncalvesg/sgn
+
+Java Temurin 17: https://adoptium.net/temurin/releases/?version=17
+
+Node.js LTS: https://nodejs.org/en/download
+
+Apache Maven: https://maven.apache.org/download.cgi
+
+Instalación de Maven en Windows: https://maven.apache.org/install.html
+
+PostgreSQL para Windows: https://www.postgresql.org/download/windows/
+
+Fin del manual
